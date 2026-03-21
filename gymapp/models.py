@@ -53,7 +53,56 @@ class Trainer(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.specialization} - {self.shift_timing} - {self.experience_years} years"
+    
+
+
+class MemberProfile(models.Model):
+
+    GENDER_CHOICES = (
+        ('MALE', 'Male'),
+        ('FEMALE', 'Female'),
+        ('OTHER', 'Other')
+    )
+    user = models.OneToOneField(
+         settings.AUTH_USER_MODEL, 
+        on_delete=models.CASCADE,  # Delete profile if user is deleted 
+        related_name='member_profile'  # This allows you to access the MemberProfile from the User model using user.member_profile
+    )
+    
+    full_name = models.CharField(max_length=100)
+    age = models.PositiveIntegerField()
+    mobile = models.BigIntegerField(max_length=10)
+    gender = models.CharField(max_length=10, choices=GENDER_CHOICES, null=True, blank=True)
+    address = models.TextField(blank=True)
+    joining_date = models.DateField(default=timezone.now)  # Set default value to current date
+    plan = models.ForeignKey(
+        MembershipPlan, on_delete=models.SET_NULL, null=True, blank=True)  #if plan delete garne bhaye, member profile ma null value rakhne
+    related_name = 'members' # This allows you to access all members associated with a specific 
+                                #membership plan using membership_plan.members.all()
+    trainer = models.ForeignKey(
+        Trainer, on_delete=models.SET_NULL, null=True, blank=True)  #if trainer delete garne bhaye, member profile ma null value rakhne
+    related_name = 'members' # This allows you to access all members associated with a specific trainer using trainer.members.all() 
+
+    membership_start= models.DateField(null=True, blank=True)  #date when the membership starts
+    membership_end = models.DateField(null=True, blank=True)  #date when the membership ends
 
 
 
+    def __str__(self):
+        return f"{self.full_name} - {self.user.username}"
+    
+
+
+#5 fields in equipment model: name, quantity, purchase_date, condition, and description.
+class Equipment(models.Model):
+    name = models.CharField(max_length=100) #e.g 'Treadmill', 'Dumbbells', 'Bench Press', etc.
+    units = models.PositiveIntegerField(default=1) #e.g 5 treadmills , 10 dumbbells, etc.
+    price = models.DecimalField(max_digits=10, decimal_places=2) # The price of the equipment, eg 500.32
+    purchase_date = models.DateField(default=timezone.now)  # The date when the equipment was purchased, defaulting to the current date
+    is_active = models.BooleanField(default=True)  # Indicates if the equipment is currently in use
+   
+
+    def __str__(self):
+        return f"{self.name} - (Units: {self.units})"
+    
 

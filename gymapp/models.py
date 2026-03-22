@@ -5,6 +5,7 @@ from django.conf import settings   # Import settings to access the custom user m
 
 # Create your models here.
 
+#user model ma role field add gareko, jasma admin ra member ko role define gareko cha.
 class User(AbstractUser):  #username, password, email, first_name, last_name
 
     ROLE_CHOICES = (
@@ -43,6 +44,8 @@ class MembershipPlan(models.Model):  #models.model laie inherit garne
     
 
 
+#trainer model ma name, mobile, specialization, shift_timing, experience_years field haru cha.
+
 class Trainer(models.Model):
     name = models.CharField(max_length=100)
     mobile = models.BigIntegerField(max_length=10)   # Contact information for the trainer
@@ -56,6 +59,7 @@ class Trainer(models.Model):
     
 
 
+#member profile model 
 class MemberProfile(models.Model):
 
     GENDER_CHOICES = (
@@ -93,6 +97,8 @@ class MemberProfile(models.Model):
     
 
 
+
+
 #5 fields in equipment model: name, quantity, purchase_date, condition, and description.
 class Equipment(models.Model):
     name = models.CharField(max_length=100) #e.g 'Treadmill', 'Dumbbells', 'Bench Press', etc.
@@ -105,4 +111,120 @@ class Equipment(models.Model):
     def __str__(self):
         return f"{self.name} - (Units: {self.units})"
     
+
+
+
+#payment model yesma 7 fields hun x
+
+class payment(models.Model):
+    PAYMENT_MODE_CHOICES = (
+        ('CASH', 'Cash'),
+        ('ONLINE', 'Online'),
+    )
+    PAYMENT_STATUS_CHOICES = {
+        ('PAID', 'Paid'),
+        ('PENDING', 'Pending')
+    }
+
+
+    member = models.ForeignKey(MemberProfile,
+                               on_delete=models.CASCADE, #if member profile delete garne bhaye, payment record pani delete garne
+                               related_name = 'payments' #Access payments via member.payments
+                               )
+    Plan= models.ForeignKey(MembershipPlan,
+                            on_delete=models.SET_NULL, #if membership plan delete garne bhaye, payment record ma null value rakhne
+                            null=True, blank=True,
+                            related_name = 'payments' #Access payments via plan.payments
+                            )
+    amount = models.DecimalField(max_digits=10, decimal_places =2) # The amount paid by the member
+    payment_date = models.DateField(default= timezone.now) # The date when the payment was made, defaulting to the current date
+    mode = models.CharField(max_length= 50, choices=PAYMENT_MODE_CHOICES) #e.g 'Cash', 'Bank Transfer', etc.
+    status = models.CharField(max_length = 50, choices=PAYMENT_STATUS_CHOICES, default= 'PENDING') #e.g 'Paid', 'Pending', etc.
+    notes= models.TextField(blank=True )# 
+
+
+    def __str__(self):
+        return f"payment of ${self.amount} by {self.member.full_name} on {self.payment_date}"
+    
+
+
+#attendance model with 3 fields
+
+class Attendance(models.Model):
+    member = models.ForeignKey(
+        MemberProfile, 
+        on_delete=models.CASCADE, #if member profile delete garne bhaye, attendance record pani delete garne
+        related_name='attendances'  # Access attendance records via member.attendance_records
+        )
+    date = models.DateField(default=timezone.now)  # The date of attendance, defaulting to the current date
+    time_in = models.TimeField(null=True, blank=True)  # The time when the member checked in
+
+    class Meta:
+        unique_together = ('member', 'date') #Ensure one attendance record per member per day
+
+
+    def __str__(self):
+        return f"{self.member.full_name} - {self.date} - {self.time_in}"
+                               
+
+
+#enquary model with 6 fields
+
+class Enquiry(models.Model):
+    ENQUIRY_STATUS_CHOICES = (
+        ('NEW', 'New'),
+        ('INPROGRESS', 'In Progress'),
+        ('RESOLVED', 'Resolved'),
+    )
+    name = models.CharField(max_length=100) # The name of the person making the enquiry
+    email = models.EmailField() # The email address of the person making the enquiry
+    mobile = models.BigIntegerField(max_length=10) # The mobile number of the person making the enquiry
+    message = models.TextField() # The message or content of the enquiry
+    created_at = models.DateTimeField(auto_now_add=True) # The date and time when the enquiry was created, automatically set to the current date and time when the record is created
+    status = models.CharField(max_length=20, choices=ENQUIRY_STATUS_CHOICES, default='NEW') # The status of the enquiry, with choices for 'New', 'In
+
+
+    def __str__(self):
+        return f"Enquiry from {self.name} - {self.email} - {self.mobile} - Status: {self.status}"
+
+
+
+
+
+
+#workout plan model with 4 fields
+
+class WorkoutPlan(models.Model):
+    member = models.ForeignKey(
+        MemberProfile, 
+        on_delete=models.CASCADE, #if member profile delete garne bhaye, workout plan record pani delete garne
+        related_name='workout_plans'  # Access workout plans via member.workout_plans
+        )
+    title = models.CharField(max_length=100) # The Title of the workout plan
+    description = models.TextField(blank=True) # A description of the workout plan
+    created_at = models.DateTimeField(auto_now_add=True) # The date and time when the workout plan was created, automatically set to the current date and time when the record is created
+
+    def __str__(self):
+        return f"{self.title} - Created at: {self.created_at}"
+
+
+
+
+#feedback model with 3 fields
+
+class Feedback(models.Model):
+    member = models.ForeignKey(
+        MemberProfile, 
+        on_delete=models.CASCADE, #if member profile delete garne bhaye, feedback record pani delete garne
+        related_name='feedbacks'  # Access feedback records via member.feedbacks
+        )
+    message = models.TextField() # feedback message provided by the member
+    created_at = models.DateTimeField(auto_now_add=True) # The date and time when the feedback was created, automatically set to the current date and time when the record is created
+
+
+    def __str__(self):
+        return f"Feedback from {self.member.full_name} - Created at: {self.created_at}"
+
+
+
 

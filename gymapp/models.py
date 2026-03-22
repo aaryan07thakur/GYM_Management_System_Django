@@ -48,7 +48,7 @@ class MembershipPlan(models.Model):  #models.model laie inherit garne
 
 class Trainer(models.Model):
     name = models.CharField(max_length=100)
-    mobile = models.BigIntegerField(max_length=10)   # Contact information for the trainer
+    mobile = models.CharField(max_length=15)   # Contact information for the trainer
     specialization = models.CharField(max_length=200)
     shift_timing = models.CharField(max_length=100)  # The working hours or shift timing of the trainer
     experience_years = models.PositiveIntegerField()  # Number of years of experience
@@ -75,7 +75,7 @@ class MemberProfile(models.Model):
     
     full_name = models.CharField(max_length=100)
     age = models.PositiveIntegerField()
-    mobile = models.BigIntegerField(max_length=10)
+    mobile = models.CharField(max_length=15)  # Contact information for the member
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES, null=True, blank=True)
     address = models.TextField(blank=True)
     joining_date = models.DateField(default=timezone.now)  # Set default value to current date
@@ -178,7 +178,7 @@ class Enquiry(models.Model):
     )
     name = models.CharField(max_length=100) # The name of the person making the enquiry
     email = models.EmailField() # The email address of the person making the enquiry
-    mobile = models.BigIntegerField(max_length=10) # The mobile number of the person making the enquiry
+    mobile = models.CharField(max_length=15) # The mobile number of the person making the enquiry
     message = models.TextField() # The message or content of the enquiry
     created_at = models.DateTimeField(auto_now_add=True) # The date and time when the enquiry was created, automatically set to the current date and time when the record is created
     status = models.CharField(max_length=20, choices=ENQUIRY_STATUS_CHOICES, default='NEW') # The status of the enquiry, with choices for 'New', 'In

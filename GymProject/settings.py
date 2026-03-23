@@ -14,7 +14,7 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-TEMPLATES_DIR = BASE_DIR / 'templates'  # Define the templates directory
+TEMPLATES_DIR = BASE_DIR / 'gymapp' / 'templates'  # Define the templates directory
 STATIC_DIR = BASE_DIR / 'static' # Define the static files directory
 
 

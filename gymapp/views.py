@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import * 
 from django.contrib import messages
 
@@ -16,10 +16,10 @@ def home(request):
         if name and email and mobile and message:
             Enquiry.objects.create(name=name, email=email, mobile=mobile, message=message)
             messages.success(request, 'Your enquiry has been submitted successfully.')
+            return redirect('home') # Redirect to the home page after successful submission
         else:
             messages.error(request, 'Please fill in all fields.')
-            
-            
+                
     return render(request, 'home.html')
 
 

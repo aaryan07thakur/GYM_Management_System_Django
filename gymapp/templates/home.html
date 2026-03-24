@@ -1,38 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gym Management System </title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"  />
-</head>
-<body>
-   
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">
-        <i class="fas fa-dumbbell"></i> My Gym</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#abc">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="#abc">
-      <ul class="navbar-nav ms-auto ">
-        <li class="nav-item">
-          <a class="nav-link " aria-current="page" href="{% url 'home' %}">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'about' %}">About</a>
-        </li>
-      </ul>
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="container">
+  <div class="row">
+    
+    <div class="col-md-7">
+      <h1 class="mb-3">Welcome to the Gym Management System</h1>
+      <p>Simple gym management system built with python, Django, bootstrap, html, css and Sqlite</p>
+      <p>Manage members, equipment, attendance and many more features!</p>
     </div>
+
+    <div class="col-md-5">
+      <div class="card shadow-sm">
+        
+        <div class="card-header bg-primary text-white">
+          Contact / Enquiry
+        </div> 
+        
+        <div class="card-body">
+          <form method="post">
+            {% csrf_token %}
+
+            <div class="mb-3">
+              <label for="name" class="form-label">Name</label>
+              <input type="text" class="form-control" id="name" name="name" placeholder="Enter your full Name " required>
+            </div>
+
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" id="email"  name="email" placeholder="Enter your email " required>
+            </div>
+
+            <div class="mb-3">
+              <label for="mobile" class="form-label">Mobile</label>
+              <input type="text" class="form-control" id="mobile" name="mobile" maxlength="10" placeholder="Enter your mobile number " required >
+            </div>
+
+            <div class="mb-3">
+              <label for="message" class="form-label">Message</label>
+              <textarea type="text" class="form-control" rows="3" name="message" placeholder="Enter your message " required></textarea>
+            </div>
+
+
+
+            <button type="submit" class="btn btn-primary w-100">Submit Enquiry</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+
   </div>
-</nav>
+</div>
 
-
- <h1>Welcome to the Gym Management System</h1>
-    <p>This is a simple gym management system built with Django.</p>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+{% endblock %}

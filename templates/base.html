@@ -83,7 +83,7 @@
 
         {% endif %}
             <li class="nav-item">
-                <a class="nav-link " aria-current="page" href="{% url 'home' %}">Logout</a>
+                <a class="nav-link " aria-current="page" href="{% url 'logout' %}">Logout</a>
             </li>    
           
         {% else %}
@@ -96,7 +96,7 @@
           <a class="nav-link" href="{% url 'about' %}">About</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'about' %}">Admin Login</a>
+          <a class="nav-link" href="{% url 'admin_login' %}">Admin Login</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'about' %}">Member Login</a>

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import * 
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
 
@@ -27,3 +28,34 @@ def home(request):
 
 def about(request):
     return render(request, 'about.html')
+
+
+
+def admin_login_view(request):
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+# authenticate function le check garxa ki username ra password sahi cha ki nai database ma , ani user object return garxa
+        user = authenticate(request, username=username, password=password) 
+
+        if user is not None and getattr(user, 'role', None) == 'ADMIN':  # Check if the user is authenticated and has the admin role
+            login(request, user) # Login the user and create a session
+            messages.success(request, 'Login successful!')
+            return redirect('admin_dashboard')  # Redirect to admin dashboard upon successful login
+        else:
+            messages.error(request, 'Invalid username or password.')
+
+    return render(request, 'admin_login.html')
+
+
+
+def admin_dashboard_view(request):
+   return render(request, 'admin_dashboard.html')
+
+
+def logout_view(request):
+    logout(request)  # Log out the user and end the session
+    messages.success(request, 'You have been logged out successfully.')
+    return redirect('admin_login')  # Redirect to admin login page after logout

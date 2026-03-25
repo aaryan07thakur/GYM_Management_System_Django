@@ -59,3 +59,27 @@ def logout_view(request):
     logout(request)  # Log out the user and end the session
     messages.success(request, 'You have been logged out successfully.')
     return redirect('admin_login')  # Redirect to admin login page after logout
+
+
+
+#=====================================================================================
+def members_login_view(request):
+    # Similar to admin_login_view but checks for MEMBER role
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None and getattr(user, 'role', None) == 'MEMBER':
+            login(request, user)
+            messages.success(request, 'Login successful!')
+            return redirect('member_dashboard')
+        else:
+            messages.error(request, 'Invalid username or password.')
+
+    return render(request, 'members_login.html')
+
+
+
+

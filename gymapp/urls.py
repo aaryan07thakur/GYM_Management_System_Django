@@ -11,6 +11,7 @@ urlpatterns = [
     path('admin_plans/', admin_plans_list, name='admin_plans_list'),
     path('admin_plan_add/', admin_plan_add, name='admin_plan_add'),
     path('admin_plans_edit/<int:plan_id>/', admin_plan_edit, name='admin_plan_edit'),
-    
+    path('admin_plan_delete/<int:plan_id>/', admin_plan_delete, name='admin_plan_delete'),
+
 
 ]

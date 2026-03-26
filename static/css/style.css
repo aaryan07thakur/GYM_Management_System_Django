@@ -1,0 +1,10 @@
+/* .inline-form{
+    display: inline-block;
+} */
+
+
+.button-group{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}

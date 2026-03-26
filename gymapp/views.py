@@ -128,6 +128,15 @@ def admin_plan_edit(request,plan_id):
 
 
 
+@admin_required
+def admin_plan_delete(request,plan_id):
+    plan=MembershipPlan.objects.get(id=plan_id)
+    if request.method == "POST":
+        plan.delete()
+        messages.success(request, 'Membership plan deleted successfully ! ')
+        return redirect ('admin_plans_list')
+    return redirect(request, 'admin_plans_list')
+
 
 
 

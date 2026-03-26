@@ -86,24 +86,45 @@ def admin_plans_list(request):
 def admin_plan_add(request):
     if request.method == "POST":
         name = request.POST.get('name')
-        duration_months = request.POST.get ('duration_months ')
-        fee = request.POST.get('fee')
+        duration_months = request.POST.get ('duration_months')
+        fees = request.POST.get('fees')
         description = request.POST.get('description')
 
-        if name and duration_months and fee:
+        if name and duration_months and fees:
             MembershipPlan.objects.create(
                 name=name,
                 duration_months=duration_months,
-                fee=fee,
+                fees=fees,
                 description=description
             )
             messages.success(request, 'Membership plan added successfully!! ')
             return redirect('admin_plans_list')
         else:
             messages.error(request, 'Please fill in all required fields.')
-            return redirect('admin_plan_form.html', {'mode': 'add'})
+    return render(request, 'admin_plan_form.html', {'mode': 'add'})
 
 
+
+@admin_required
+def admin_plan_edit(request,plan_id):
+    plan= MembershipPlan.objects.get(id=plan_id)
+    if request.method == "POST":
+        name= request.POST.get('name')
+        duration_months = request.POST.get('duration_months')
+        fee= request.POST.get('fees')
+        description = request.POST.get('description')
+
+        if name and duration_months and fee:
+            plan.name = name
+            plan.duration_months = duration_months
+            plan.fees = fee
+            plan.description = description
+            plan.save()
+            messages.success(request, "Membership plan updated successfully! ")
+            return redirect('admin_plans_list')
+        else:
+            messages.error(request, "Please fill in all required fields. ")
+    return render(request, 'admin_plan_form.html', {'plan': plan, 'mode': 'edit' })
 
 
 

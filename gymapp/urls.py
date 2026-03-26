@@ -10,5 +10,7 @@ urlpatterns = [
     path('members-login/', members_login_view, name='members_login'),
     path('admin_plans/', admin_plans_list, name='admin_plans_list'),
     path('admin_plan_add/', admin_plan_add, name='admin_plan_add'),
+    path('admin_plans_edit/<int:plan_id>/', admin_plan_edit, name='admin_plan_edit'),
+    
 
 ]

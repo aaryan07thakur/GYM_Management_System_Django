@@ -50,7 +50,21 @@ def admin_login_view(request):
     return render(request, 'admin_login.html')
 
 
+#decorator 
+def admin_required(view_func):
+    '''Decorator to check if the user is authenticated and has the admin role  '''
 
+    def wrapper(request, *args, **kwargs):
+        if not request.user.is_authenticated or getattr(request.user, 'role', None) != 'ADMIN':
+            messages.error(request, 'You must be an admin to access this page.')
+            return redirect('admin_login')
+        return view_func(request, *args, **kwargs)
+    return wrapper
+
+
+
+
+@admin_required
 def admin_dashboard_view(request):
    return render(request, 'admin_dashboard.html')
 
@@ -59,6 +73,40 @@ def logout_view(request):
     logout(request)  # Log out the user and end the session
     messages.success(request, 'You have been logged out successfully.')
     return redirect('admin_login')  # Redirect to admin login page after logout
+
+
+
+@admin_required
+def admin_plans_list(request):
+    plans= MembershipPlan.objects.all().order_by("duration_months")
+    return render(request, 'admin_plans_list.html', {'plans': plans})
+
+
+@admin_required
+def admin_plan_add(request):
+    if request.method == "POST":
+        name = request.POST.get('name')
+        duration_months = request.POST.get ('duration_months ')
+        fee = request.POST.get('fee')
+        description = request.POST.get('description')
+
+        if name and duration_months and fee:
+            MembershipPlan.objects.create(
+                name=name,
+                duration_months=duration_months,
+                fee=fee,
+                description=description
+            )
+            messages.success(request, 'Membership plan added successfully!! ')
+            return redirect('admin_plans_list')
+        else:
+            messages.error(request, 'Please fill in all required fields.')
+            return redirect('admin_plan_form.html', {'mode': 'add'})
+
+
+
+
+
 
 
 

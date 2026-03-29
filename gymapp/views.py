@@ -214,8 +214,14 @@ def admin_trainer_delete(request,trainer_id):
 
 @admin_required
 def admin_members_list(request):
-    members= MemberProfile.objects.all().select_related('user', 'plan')  
-    return render(request, 'admin_members_list.html', {'members': members} )
+    search=request.GET.get('search','').strip()
+
+    members= MemberProfile.objects.all().select_related('user', 'plan')
+
+    if search:
+        members = members.filter(full_name__icontains=search)  
+        
+    return render(request, 'admin_members_list.html', {'members': members,'search':search})
 
 
 

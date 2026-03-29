@@ -8,6 +8,11 @@ urlpatterns = [
     path('admin-dashboard/', admin_dashboard_view, name='admin_dashboard'),
     path('logout/', logout_view, name='logout'),
 
+    path('admin_member_add/',admin_member_add, name='admin_member_add'),
+    # path('admin_edit_member/',admin_edit_member, name= 'admin_edit_member'),
+    path('admin_members/',admin_members_list, name="admin_members_list"),
+
+
     path('members-login/', members_login_view, name='members_login'),
 
     path('admin_plans/', admin_plans_list, name='admin_plans_list'),

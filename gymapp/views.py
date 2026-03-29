@@ -212,6 +212,61 @@ def admin_trainer_delete(request,trainer_id):
 
 
 
+@admin_required
+def admin_members_list(request):
+    members= MemberProfile.objects.all().select_related('user', 'plan')  
+    return render(request, 'admin_members_list.html', {'members': members} )
+
+
+
+@admin_required
+def admin_member_add(request):
+    plans = MembershipPlan.objects.all().order_by('duration_months') #plans ko sabai data layau ne
+    Trainers = Trainer.objects.all().order_by('name')  #sabai trainer laei layau ne 
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        full_name = request.POST.get('full_name')
+        mobile = request.POST.get('mobile')
+        age= request.POST.get('age')
+        gender = request.POST.get('gender')
+        address = request.POST.get('address')
+        joining_date = request.POST.get('joining_date') or timezone.now().date()
+
+        plan_id = request.POST.get('plan_id')
+        trainer_id = request.POST.get('trainer_id')
+
+        if User.objects.filter(username= username).exists():
+            messages.error(request, 'Username already exists. Please choose a different username. ')
+            return redirect('admin_member_add')
+        
+
+        user = User.objects.create_user(username=username, password= password, role="MEMBER")
+
+        plan = MembershipPlan.objects.get(id=plan_id) if plan_id else None
+        trainer = Trainer.objects.get(id=trainer_id) if trainer_id else None
+
+        MemberProfile.objects.create(
+            user = user,
+            full_name = full_name,
+            mobile = mobile,
+            age = age,
+            gender=gender,
+            address=address,
+            joining_date=joining_date,
+            plan=plan,
+            trainer=trainer
+        )
+        messages.success(request, 'Member added successfully! ')
+        return redirect('admin_members_list')
+    return render(request, 'admin_member_form.html', 
+                {'plans': plans, 'trainers': Trainers, 'mode':'ADD' })
+
+
+
+
+
+
 
 
 #=====================================================================================

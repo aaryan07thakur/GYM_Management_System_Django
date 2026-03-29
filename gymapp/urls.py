@@ -24,6 +24,10 @@ urlpatterns = [
     path('admin_trainer_delete/<int:trainer_id>/', admin_trainer_delete, name='admin_trainer_delete'),
 
 
+    path('admin_attendance/',admin_attendance_list, name="admin_attendance_list"),
+    path('admin_attendance_add/',admin_attendance_add, name= 'admin_attendance_add'),
+
+
 
     path('members-login/', members_login_view, name='members_login'),
 

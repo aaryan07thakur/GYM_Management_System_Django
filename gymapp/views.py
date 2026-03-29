@@ -260,12 +260,56 @@ def admin_member_add(request):
         messages.success(request, 'Member added successfully! ')
         return redirect('admin_members_list')
     return render(request, 'admin_member_form.html', 
-                {'plans': plans, 'trainers': Trainers, 'mode':'ADD' })
+                {'plans': plans, 'trainers': Trainers,'mode':'ADD' })
+
+
+
+@admin_required
+def admin_member_edit(request,member_id):
+   member= MemberProfile.objects.get(id= member_id)
+   plans = MembershipPlan.objects.all().order_by('duration_months')
+   trainers= Trainer.objects.all().order_by('name')
+   if request.method == 'POST':
+       full_name=request.POST.get('full_name')
+       mobile = request.POST.get('mobile')
+       age= request.POST.get('age')
+       address=request.POST.get('address')
+       gender= request.POST.get('gender')
+       joining_date = request.POST.get('join_date') or member.joining_date
+       plan_id= request.POST.get('plan_id')
+       trainer_id= request.POST.get('trainer_id')
+
+       plan= MembershipPlan.objects.get(id=plan_id) if plan_id else None
+       trainer= Trainer.objects.get(id= trainer_id) if trainer_id else None
+
+       member.full_name= full_name
+       member.mobile = mobile
+       member.age = age
+       member.gender = gender
+       member.address = address
+       member.joining_date = joining_date
+       member.plan = plan
+       member.trainer = trainer
+       member.save()
+       messages.success(request, 'Member updated successfully ! ')
+       return redirect('admin_members_list')
+   return render(request, 'admin_member_form.html',{
+       'member' : member, 'plans': plans, 'trainers': trainers, 'mode': 'edit'
+   } )
 
 
 
 
-
+@admin_required
+def admin_member_delete(request, member_id):
+    member = MemberProfile.objects.get(id=member_id)
+    if request.method == 'POST':
+        user= member.user #get the associated user object
+        member.delete() 
+        user.delete()
+        messages.success(request, 'Member deleted successfully! ')
+        return redirect('admin_members_list')
+    return redirect('admin_members_list')
 
 
 

@@ -9,7 +9,8 @@ urlpatterns = [
     path('logout/', logout_view, name='logout'),
 
     path('admin_member_add/',admin_member_add, name='admin_member_add'),
-    # path('admin_edit_member/',admin_edit_member, name= 'admin_edit_member'),
+    path('admin_member_edit/<int:member_id>/', admin_member_edit, name='admin_member_edit'),
+    path('admin_member_delete/<int:member_id>/', admin_member_delete, name='admin_member_delete'),
     path('admin_members/',admin_members_list, name="admin_members_list"),
 
 

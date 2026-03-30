@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import * 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.utils.dateparse import parse_date
 
 # Create your views here.
 
@@ -321,11 +322,31 @@ def admin_member_delete(request, member_id):
 
 @admin_required
 def admin_attendance_list(request):
-    Attendances = Attendance.objects.all().select_related('member')
+    today = timezone.now().date()
+
+    date_str = request.GET.get('date')
+
+    if date_str:
+        date=parse_date(date_str)
+    else:
+        date=today
+    
+    attendances = Attendance.objects.all().select_related('member')
+
+    if date:
+        attendances = attendances.filter(date=date)
 
     members = MemberProfile.objects.all().order_by("full_name") 
+
+    member_id = request.GET.get('member_id')
+    if member_id:
+        attendances = attendances.filter(member_id=member_id)
+
     return render(request,'admin_attendance_list.html', 
-                {'attendances': Attendances, 'members': members})
+                {'attendances': attendances, 
+                 'members': members, 
+                 'selected_date':date,
+                 'selected_member_id': member_id})
 
 
 @admin_required
@@ -344,7 +365,7 @@ def admin_attendance_add(request):
         member = MemberProfile.objects.get(id = member_id)
 
         attendance, created = Attendance.objects.get_or_create(  #yadi member ko data perticular date ma x vane affai fetch hunx 
-            member=member, date=date , time_in=time_in  #if record x en vane  create hun x 
+            member=member, date=date  #if record x en vane  create hun x 
         )
         attendance.time_in = time_in
         attendance.save()

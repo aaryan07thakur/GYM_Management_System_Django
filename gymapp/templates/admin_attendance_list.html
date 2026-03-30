@@ -6,7 +6,7 @@
 {% block content %}
 
 <div class="d-flex justify-content-between align-items-center mb-3 ">
-    <h2> Attendances  </h2>
+    <h2> Attendances ({{ selected_date }})  </h2>
 
     <a href="{% url 'admin_attendance_add' %}" class="btn btn-primary">Mark Attendance </a>
 </div>
@@ -15,17 +15,20 @@
     <form method="get" class="row g-2 mb-3"> 
         <div class="col-md-4">
             <label class="form-label">Date</label>
-            <input type="date" name="data" class="form-control" value="{{selected_date}}">
+            <!-- Date filter -->
+            <input type="date" name="date" class="form-control" value="{{selected_date|date:'Y-m-d'}}">
 
         </div>
 
         <div class="col-md-4">
             <label class="form-label">Member</label>
 
-            <select name="member_id" class="form-select" required >
+            <!-- Member filter -->
+            <select name="member_id" class="form-select" >
             <option value=""> All Member </option>
             {% for member in members %}
-            <option value="{{member.id }}" >
+            <option value="{{member.id }}" 
+            {% if member.id|stringformat:"s" == selected_member_id %}selected{% endif %} >
                 {{ member.full_name }} ({{ member.user.username }})
             </option>
             {% endfor %}

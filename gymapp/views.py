@@ -382,10 +382,10 @@ def admin_attendance_add(request):
 
 
 @admin_required
-def admin_equipment_list(requst):
+def admin_equipment_list(request):
     equipment = Equipment.objects.all().order_by("name")
-    return render(requst, 'admin_equipment_list.html', {
-        'equipments ': equipment
+    return render(request, 'admin_equipment_list.html', {
+        'equipments': equipment
     })
 
 
@@ -404,7 +404,7 @@ def admin_equipment_add(request):
                 name=name,
                 units=units,
                 price=price,
-                purchase_date=purchase_date
+                purchase_date=purchase_date,
 
             )
             messages.success(request, "Equipment added successfully ! ")

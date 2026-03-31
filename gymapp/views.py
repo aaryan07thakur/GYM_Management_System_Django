@@ -378,6 +378,40 @@ def admin_attendance_add(request):
             messages.success(request, 'Attendance updated successfully! ')
     return render(request, 'admin_attendance_form.html',{'members':members})
 
+#=============================================================================================================
+
+
+@admin_required
+def admin_equipment_list(requst):
+    equipment = Equipment.objects.all().order_by("name")
+    return render(requst, 'admin_equipment_list.html', {
+        'equipments ': equipment
+    })
+
+
+
+@admin_required
+def admin_equipment_add(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        units = request.POST.get('units')
+        price = request.POST.get('price')
+        purchase_date = request.POST.get('purchase_date') or timezone.now().date()
+
+#yada data present x vane data insert hun x  
+        if name and units and price:
+            Equipment.objects.create(
+                name=name,
+                units=units,
+                price=price,
+                purchase_date=purchase_date
+
+            )
+            messages.success(request, "Equipment added successfully ! ")
+            return redirect("admin_equipment_list")
+        else:
+            messages.error(request, 'please fill in all required fields.')
+    return render (request, 'admin_equipment_form.html', {'mode':'add'})
 
 
 

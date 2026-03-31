@@ -28,6 +28,10 @@ urlpatterns = [
     path('admin_attendance_add/',admin_attendance_add, name= 'admin_attendance_add'),
 
 
+    path('admin_equipment/',admin_equipment_list, name = 'admin_equipment_list'),
+    path('admin_equiment_add/', admin_equipment_add, name ='admin_equipment_add'),
+
+
 
     path('members-login/', members_login_view, name='members_login'),
 

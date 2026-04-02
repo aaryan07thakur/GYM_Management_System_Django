@@ -19,7 +19,7 @@ def validate_purchase_date(request, date_str):
         messages.error(request, "Invalid date format!")
         return None
 
-    if purchase_date > date.today():
+    if purchase_date > date.today():  #future date select garna pau dai n 
         messages.error(request, "Future date is not allowed!")
         return None
 

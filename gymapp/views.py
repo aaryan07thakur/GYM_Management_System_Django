@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.utils.dateparse import parse_date
 from .utils import validate_purchase_date
+from datetime import date
 
 
 
@@ -425,6 +426,7 @@ def admin_equipment_add(request):
     
     return render (request, 'admin_equipment_form.html', {
         'mode':'add',
+        'today': date.today(),
         })
 
 
@@ -437,6 +439,10 @@ def admin_equipment_edit(request,equipment_id):
         units = request.POST.get('units')
         price= request.POST.get('price')
         purchase_date=request.POST.get('purchase_date')
+
+        purchase_date_obj= validate_purchase_date(request, purchase_date)
+        if not purchase_date_obj:
+            return redirect ('admin_equipment_edit')
         
         if not name or not units or not price:
             messages.error(request, "All fields are required ! ")
@@ -455,7 +461,9 @@ def admin_equipment_edit(request,equipment_id):
             return redirect('admin_equipment_edit', equipment_id=equipment_id)
         
     return render(request, 'admin_equipment_form.html',{
-        'equipment' : equipment, 'mode': 'edit'
+        'equipment' : equipment, 
+        'mode': 'edit',
+        'today': date.today(),
     })
 
 
@@ -465,7 +473,7 @@ def admin_equipment_delete(request, equipment_id):
     equipment = Equipment.objects.get(id=equipment_id)
     if request.method == 'POST':
         equipment.delete() 
-        messages.success(request, 'Member deleted successfully! ')
+        messages.success(request, 'equipment deleted successfully! ')
         return redirect('admin_equipment_list')
     return redirect('admin_equipment_list')
 

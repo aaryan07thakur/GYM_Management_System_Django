@@ -3,7 +3,7 @@ from .models import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.utils.dateparse import parse_date
-from .utils import validate_purchase_date
+from .utils import *
 from datetime import date
 
 
@@ -354,35 +354,45 @@ def admin_attendance_list(request):
                  'selected_date':date,
                  'selected_member_id': member_id})
 
-
 @admin_required
 def admin_attendance_add(request):
-    members = MemberProfile.objects.all().order_by("full_name") # sabai member ko full name aau x 
+    members = MemberProfile.objects.all().order_by("full_name")
 
     if request.method == 'POST':
         member_id = request.POST.get('member_id')
-        date = request.POST.get('date')
+        date_str = request.POST.get('date')
         time_in = request.POST.get('time_in')
 
         if not member_id:
-            messages.error(request, "Please select a member. ")
+            messages.error(request, "Please select a member.")
             return redirect('admin_attendance_add')
-        
-        member = MemberProfile.objects.get(id = member_id)
 
-        attendance, created = Attendance.objects.get_or_create(  #yadi member ko data perticular date ma x vane affai fetch hunx 
-            member=member, date=date  #if record x en vane  create hun x 
+        if not time_in:
+            messages.error(request, "Time In is required.")
+            return redirect('admin_attendance_add')
+
+        # validate date
+        att_date = validate_date(request, date_str, "Attendance Date")
+        if not att_date:
+            return redirect('admin_attendance_add')
+
+        member = MemberProfile.objects.get(id=member_id)
+
+        attendance, created = Attendance.objects.get_or_create(
+            member=member, date=att_date  # validated date use
         )
         attendance.time_in = time_in
         attendance.save()
 
         if created:
-            #attendance just created
-            messages.info(request, 'Attendance recorded successfully ! ')
+            messages.info(request, 'Attendance recorded successfully!')
         else:
-            #attendance a;ready existed, updated
-            messages.success(request, 'Attendance updated successfully! ')
-    return render(request, 'admin_attendance_form.html',{'members':members})
+            messages.success(request, 'Attendance updated successfully!')
+
+    return render(request, 'admin_attendance_form.html', {
+        'members': members,
+        'today': date.today(),
+    })
 
 #=============================================================================================================
 
@@ -404,7 +414,7 @@ def admin_equipment_add(request):
         price = request.POST.get('price')
         purchase_date = request.POST.get('purchase_date') or timezone.now().date()
 
-        purchase_date_obj= validate_purchase_date(request, purchase_date)
+        purchase_date_obj= validate_date(request, purchase_date)
         if not purchase_date_obj:
             return redirect ('admin_equipment_add')
 
@@ -440,7 +450,7 @@ def admin_equipment_edit(request,equipment_id):
         price= request.POST.get('price')
         purchase_date=request.POST.get('purchase_date')
 
-        purchase_date_obj= validate_purchase_date(request, purchase_date)
+        purchase_date_obj= validate_date(request, purchase_date)
         if not purchase_date_obj:
             return redirect ('admin_equipment_edit')
         

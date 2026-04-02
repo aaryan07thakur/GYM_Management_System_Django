@@ -5,22 +5,23 @@ from django.contrib import messages
 
 
 
-def validate_purchase_date(request, date_str):
+
+def validate_date(request, date_str, field_name="Date"):
     """
     Converts string to date object and checks future date.
-    Returns (date_object or None)
-    Adds message in case of error.
+    Returns date object or None if invalid.
     """
-    if not date_str:
-        return timezone.now().date()
+    if not date_str or not isinstance(date_str, str):
+        messages.error(request, f"{field_name} is required.")
+        return None
     try:
-        purchase_date = datetime.strptime(date_str, "%Y-%m-%d").date()
+        date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
     except ValueError:
-        messages.error(request, "Invalid date format!")
+        messages.error(request, f"Invalid {field_name} format!")
         return None
 
-    if purchase_date > date.today():  #future date select garna pau dai n 
-        messages.error(request, "Future date is not allowed!")
+    if date_obj > date.today():
+        messages.error(request, f"Future {field_name} is not allowed!")
         return None
 
-    return purchase_date
+    return date_obj

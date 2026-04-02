@@ -3,8 +3,13 @@ from .models import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.utils.dateparse import parse_date
+from .utils import validate_purchase_date
+
+
 
 # Create your views here.
+
+
 
 def home(request):
     '''simple home page + contact/enquiry form'''
@@ -398,20 +403,29 @@ def admin_equipment_add(request):
         price = request.POST.get('price')
         purchase_date = request.POST.get('purchase_date') or timezone.now().date()
 
-#yada data present x vane data insert hun x  
-        if name and units and price:
-            Equipment.objects.create(
-                name=name,
-                units=units,
-                price=price,
-                purchase_date=purchase_date,
+        purchase_date_obj= validate_purchase_date(request, purchase_date)
+        if not purchase_date_obj:
+            return redirect ('admin_equipment_add')
 
-            )
-            messages.success(request, "Equipment added successfully ! ")
-            return redirect("admin_equipment_list")
-        else:
-            messages.error(request, 'please fill in all required fields.')
-    return render (request, 'admin_equipment_form.html', {'mode':'add'})
+#required field check gar ne
+        if not name or not units or not price:
+            messages.error(request, 'Please fill in all required fields.')
+            return redirect('admin_equipment_add')
+
+#equiment create garne with validated date
+        Equipment.objects.create(
+            name=name,
+            units=units,
+            price=price,
+            purchase_date=purchase_date_obj,
+
+        )
+        messages.success(request, "Equipment added successfully ! ")
+        return redirect("admin_equipment_list")
+    
+    return render (request, 'admin_equipment_form.html', {
+        'mode':'add',
+        })
 
 
 

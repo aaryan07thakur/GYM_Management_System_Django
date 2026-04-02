@@ -32,7 +32,7 @@
                 <td> {{equipment.units }} </td>
                 <td> {{equipment.price}} </td>
                 <td> {{equipment.purchase_date}} </td>
-                {% comment %} <td>
+                <td>
                     <div class="button-group">
                         <a href="{% url 'admin_equipment_edit' equipment.id %}" class="btn btn-sm btn-warning" > Edit </a>
                         <!-- delete button ko Features by form because it is more secure -->
@@ -44,7 +44,7 @@
 
                         </form>
                     </div>
-                </td> {% endcomment %}
+                </td>
             </tr>
             {% endfor %}
         </tbody>

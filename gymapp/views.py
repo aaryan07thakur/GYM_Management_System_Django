@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import * 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -412,6 +412,48 @@ def admin_equipment_add(request):
         else:
             messages.error(request, 'please fill in all required fields.')
     return render (request, 'admin_equipment_form.html', {'mode':'add'})
+
+
+
+@admin_required
+def admin_equipment_edit(request,equipment_id):
+    equipment= get_object_or_404(Equipment, id=equipment_id)
+    if request.method == 'POST':
+        name=request.POST.get('name')
+        units = request.POST.get('units')
+        price= request.POST.get('price')
+        purchase_date=request.POST.get('purchase_date')
+        
+        if not name or not units or not price:
+            messages.error(request, "All fields are required ! ")
+            return redirect('admin_equipment_edit', equipment_id=equipment_id)
+        try:
+            equipment.name= name
+            equipment.units = units
+            equipment.price = price
+            equipment.purchase_date = purchase_date
+            equipment.save()
+
+            messages.success(request, 'equipment updated successfully ! ')
+            return redirect('admin_equipment_list')
+        except Exception as e:
+            messages.error(request, f"Something went wrong: {str(e)}")
+            return redirect('admin_equipment_edit', equipment_id=equipment_id)
+        
+    return render(request, 'admin_equipment_form.html',{
+        'equipment' : equipment, 'mode': 'edit'
+    })
+
+
+
+@admin_required
+def admin_equipment_delete(request, equipment_id):
+    equipment = Equipment.objects.get(id=equipment_id)
+    if request.method == 'POST':
+        equipment.delete() 
+        messages.success(request, 'Member deleted successfully! ')
+        return redirect('admin_equipment_list')
+    return redirect('admin_equipment_list')
 
 
 

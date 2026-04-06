@@ -35,6 +35,9 @@ urlpatterns = [
 
 
 
+    path('admin_enquiries_list', admin_enquiries_list, name= 'admin_enquiries_list'),
+    path('admin_enquiries_list/<int:enquiry_id>/update/', admin_enquiry_update_status, name= 'admin_enquiry_update_status'),
+
     path('members-login/', members_login_view, name='members_login'),
 
 

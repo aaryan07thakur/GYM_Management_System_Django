@@ -509,6 +509,9 @@ def admin_enquiry_update_status(request, enquiry_id):
     return redirect('admin_enquiries_list')
 
 
+#============ For enquaries===================================================
+
+
 
 #=====================================================================================
 def members_login_view(request):

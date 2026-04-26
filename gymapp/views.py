@@ -516,14 +516,18 @@ def admin_enquiry_update_status(request, enquiry_id):
 def admin_workout_plans_list(request):
     member_id = request.GET.get('member_id')
     workout_plans = WorkoutPlan.objects.select_related('member').all().order_by('-created_at')
-    if member_id:
-        workout_plans= workout_plans.filter(member__id=member_id)
 
         #dropdown ma sabai members haru show garna laie 
-        members= MemberProfile.objects.all().order_by('full_name')
+    members= MemberProfile.objects.all().order_by('full_name')
+
+    if member_id:
+        workout_plans = workout_plans.filter(member__id = member_id)
 
 
-    return render(request, 'admin_workout_plans_list.html', {'workout_plans' : workout_plans, 'members' : members, 'selected_member_id': member_id} )
+    return render(request, 'admin_workout_plans_list.html', {
+        'workout_plans' : workout_plans, 
+        'members' :members, 
+        'selected_member_id': member_id} )
 
 
 
@@ -549,6 +553,27 @@ def admin_workout_plan_add(request):
         messages.success(request, 'workout Plann added successfullly ! ')
         return redirect('admin_workout_plans_list')
     return redirect(request, 'admin_workout_plan_form.html', {'members': members,})
+
+
+
+# @admin_required
+# def admin_workout_plan_edit(request, plan_id):
+#     edit_plan= WorkoutPlan.objects.get(id=plan_id)
+
+#     if request.method == 'POST':
+       
+
+
+
+@admin_required
+def admin_workout_plan_delete(request, plan_id):
+    plan = WorkoutPlan.objects.get(id=plan_id)
+    if request.method == 'POST':
+        plan.delete()
+        messages.success(request, "Workout plan deleted successfully! ")
+        return redirect('admin_workout_plans_list')
+    return redirect('admin_workout_plans_list')
+
 
 
 

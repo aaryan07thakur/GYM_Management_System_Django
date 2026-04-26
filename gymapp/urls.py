@@ -41,7 +41,7 @@ urlpatterns = [
 
     path('admin_workout_plans/', admin_workout_plans_list, name='admin_workout_plans_list'),
     path('admin_workout_plan_add/', admin_workout_plan_add, name='admin_workout_plan_add'),
-    path('admin_workout_plans_edit/<int:plan_id>/', admin_workout_plan_edit, name='admin_workout_plan_edit'),
+    # path('admin_workout_plans_edit/<int:plan_id>/', admin_workout_plan_edit, name='admin_workout_plan_edit'),
     path('admin_workout_plan_delete/<int:plan_id>/', admin_workout_plan_delete, name='admin_workout_plan_delete'),
 
 

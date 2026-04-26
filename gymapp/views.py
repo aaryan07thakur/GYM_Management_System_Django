@@ -511,6 +511,53 @@ def admin_enquiry_update_status(request, enquiry_id):
 
 #============ For enquaries===================================================
 
+#==============admin_workout_plan=============================================
+@admin_required
+def admin_workout_plans_list(request):
+    member_id = request.GET.get('member_id')
+    workout_plans = WorkoutPlan.objects.select_related('member').all().order_by('-created_at')
+    if member_id:
+        workout_plans= workout_plans.filter(member__id=member_id)
+
+        #dropdown ma sabai members haru show garna laie 
+        members= MemberProfile.objects.all().order_by('full_name')
+
+
+    return render(request, 'admin_workout_plans_list.html', {'workout_plans' : workout_plans, 'members' : members, 'selected_member_id': member_id} )
+
+
+
+@admin_required
+def admin_workout_plan_add(request):
+    members = MemberProfile.objects.all().order_by('full_name')
+    if request.method == 'POST':
+        member_id = request.POST.get('member_id')
+        title= request.POST.get('title')
+        description = request.POST.get('description')
+
+        if not member_id or not title or not description:
+            messages.error(request, 'Please select a member and enter plan details.')
+            return redirect('admin_workout_plan_add')
+        
+        member = MemberProfile.objects.get(id=member_id)
+
+        WorkoutPlan.objects.create(
+            member = member,
+            title = title,
+            description = description
+        )
+        messages.success(request, 'workout Plann added successfullly ! ')
+        return redirect('admin_workout_plans_list')
+    return redirect(request, 'admin_workout_plan_form.html', {'members': members,})
+
+
+
+        
+
+
+
+
+
 
 
 #=====================================================================================

@@ -552,7 +552,9 @@ def admin_workout_plan_add(request):
         )
         messages.success(request, 'workout Plann added successfullly ! ')
         return redirect('admin_workout_plans_list')
-    return redirect(request, 'admin_workout_plan_form.html', {'members': members,})
+    return render(request, 'admin_workout_plan_form.html', {
+        'members': members,
+        })
 
 
 

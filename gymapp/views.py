@@ -603,6 +603,56 @@ def admin_workout_plan_delete(request, plan_id):
     return redirect('admin_workout_plans_list')
 
 
+#===============================================================================================
+
+@admin_required
+def admin_payments_list(request):
+    member_id = request.GET.get('member_id')
+    status= request.GET.get('status')
+    payments = payment.objects.select_related('member','plan').all().order_by('-payment_date')
+
+    if member_id:
+        payments= payments.filter(member__id=member_id)
+    if status in ['PENDING', 'PAID']:
+        payments = payments.filter(status=status)
+
+#members ko all data  memberprofile ko table bata nikalne
+    members = MemberProfile.objects.all().order_by("full_name")
+
+    return render(request,'admin_payments_list.html', {
+        'payments':payments, 
+        'members':members,
+        'selected_member_id': member_id,
+        'selected_status':status,
+        })
+
+
+
+@admin_required
+def admin_payment_add(request):
+    members = MemberProfile.objects.all().order_by('full_name')
+    plans= MembershipPlan.objects.all().order_by('duration_mobths')
+    if request.method == "POST":
+        member_id = request.POST.get('member_id')
+        plan_id = request.POST.get('plan_id')
+        amount = request.POST.get('amount')
+        payment_date = request.POST.get('payment_date') or timezone.now().date()
+        mode= request.POST.get('mode')
+        status = request.POST.get('status')
+        notes = request.POST.get('notes')
+
+        set_membership = request.POST.get('set_membership')  #checkbox to set member
+        membership_start = request.POST.get('membership_start')
+
+        if not member_id or not plan_id or not amount or not status:
+            messages.error(request, 'Please fill in all required fields. ')
+            return redirect('admin_payment_add ')
+        
+        member = MemberProfile.objects.get(id= member_id)
+        plan = MembershipPlan.objects.get(id=plan_id)
+
+        
+
 
 
         

@@ -46,6 +46,13 @@ urlpatterns = [
 
 
 
+    path('admin_payments/', admin_payments_list , name= 'admin_payments_list'),
+
+
+
+
+
+
     path('members-login/', members_login_view, name='members_login'),
 
 

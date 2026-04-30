@@ -558,11 +558,37 @@ def admin_workout_plan_add(request):
 
 
 
-# @admin_required
-# def admin_workout_plan_edit(request, plan_id):
-#     edit_plan= WorkoutPlan.objects.get(id=plan_id)
+@admin_required
+def admin_workout_plan_edit(request, plan_id):
+    edit_plan = get_object_or_404(WorkoutPlan, id=plan_id)
+    # edit_plan= WorkoutPlan.objects.get(id=plan_id)
+    members = MemberProfile.objects.all().order_by('full_name')
+    if request.method == 'POST':
+        member_id = request.POST.get('member_id')
+        title= request.POST.get('title')
+        description = request.POST.get('description')
 
-#     if request.method == 'POST':
+        if not member_id or not title or not description:
+            messages.error(request, 'Please select a member and enter plan details.')
+            return redirect('admin_workout_plan_edit', plan_id=plan_id)
+        
+        member = MemberProfile.objects.get(id=member_id)
+
+        edit_plan.member = member
+        edit_plan.title = title
+        edit_plan.description = description
+        edit_plan.save()
+
+        messages.success(request, 'Workout Plan updated successfully ! ')
+        return redirect('admin_workout_plans_list')
+    return render(request, 'admin_workout_plan_form.html', {
+        'plan': edit_plan,
+        'members': members,
+        'mode': 'edit'
+        })
+
+
+
        
 
 

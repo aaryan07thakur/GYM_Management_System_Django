@@ -2,60 +2,61 @@
 
 {% block content %}
 
-
 <h2 class="mb-3">
-
-   Add Workout / Diet Plan
+   {% if mode == 'edit' %}
+       Edit Workout / Diet Plan
+   {% else %}
+       Add Workout / Diet Plan
+   {% endif %}
 </h2>
 
-<form method= "post" class= "row g-3 w-75" >
+<form method="post" class="row g-3 w-75">
     {% csrf_token %}
 
-
+    <!--  MEMBER -->
     <div class="col-md-6">
         <label class="form-label"> Member </label>
-        <select name="member_id" class="form-select" required >
+        <select name="member_id" class="form-select" required>
             <option value=""> Select Member </option>
+
             {% for member in members %}
-            <option value="{{member.id }}" >
+            <option value="{{ member.id }}"
+                {% if plan and member.id == plan.member.id %}selected{% endif %}>
                 {{ member.full_name }} ({{ member.user.username }})
             </option>
             {% endfor %}
         </select>
-
     </div>
 
-
+    <!--  TITLE -->
     <div class="col-md-3">
         <label class="form-label"> Title </label>
-        <input type='text' name="title" 
-        class="form-control" 
-         required>
+        <input type="text" name="title"
+               class="form-control"
+               value="{% if plan %}{{ plan.title }}{% endif %}"
+               required>
     </div>
 
+    <!--  DESCRIPTION -->
     <div class="col-md-12">
-        <label class="form-label">Description</label>
-        <textarea name="description" class="form-control" required rows="5"  ></textarea>
+        <label class="form-label"> Description </label>
+        <textarea name="description"
+                  class="form-control"
+                  rows="5"
+                  required>{% if plan %}{{ plan.description }}{% endif %}</textarea>
     </div>
 
-
-
-    <!-- button for add plan ko lagie  -->
+    <!-- BUTTON -->
     <div class="col-md-12">
-        <button type="submit" class="btn btn-primary" >
-           Save
-
+        <button type="submit" class="btn btn-primary">
+            {% if mode == 'edit' %}Update{% else %}Save{% endif %}
         </button>
-        <a href="{% url 'admin_workout_plans_list' %}" class="btn btn-secondary"> Cancel</a>
+
+        <a href="{% url 'admin_workout_plans_list' %}" class="btn btn-secondary">
+            Cancel
+        </a>
     </div>
 
 </form>
-
-
-
-
-
-
-
 
 {% endblock %}

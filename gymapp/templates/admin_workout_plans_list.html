@@ -1,84 +1,101 @@
 {% extends "base.html" %}
 {% load static %}
 
-
-
 {% block content %}
 
-<div class="d-flex justify-content-between align-items-center mb-3 ">
-    <h2> Workout Plans / Diet Plans ({{ selected_date }})  </h2>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Workout Plans / Diet Plans ({{ selected_date }})</h2>
 
     <a href="{% url 'admin_workout_plan_add' %}" class="btn btn-primary">
-        Add Workout / Diet Plan</a>
+        Add Workout / Diet Plan
+    </a>
 </div>
 
+<!-- 🔍 FILTER FORM -->
+<form method="get" class="row g-2 mb-3">
 
-    <form method="get" class="row g-2 mb-3"> 
+    <div class="col-md-4">
+        <select name="member_id" class="form-select">
+            <option value="">All Members</option>
 
-        <div class="col-md-4">
-
-            <!-- Member filter -->
-            <select name="member_id" class="form-select" >
-            <option value=""> All Member </option>
             {% for member in members %}
-            <option value="{{member.id }}" 
-            {% if member.id|stringformat:"s" == selected_member_id %}selected{% endif %} >
-                {{ member.full_name }} ({{ member.user.username }})
-            </option>
+                <option value="{{ member.id }}"
+                    {% if member.id|stringformat:"s" == selected_member_id %}selected{% endif %}>
+                    {{ member.full_name }} ({{ member.user.username }})
+                </option>
             {% endfor %}
         </select>
+    </div>
 
-        </div>
+    <div class="col-md-2 d-flex align-items-end">
+        <button type="submit" class="btn btn-secondary w-100">Filter</button>
+    </div>
 
+</form>
 
-        <div class="col-md-2 d-flex align-items-end " >
-           <button type="submit" class="btn btn-secondary w-100 "> Filter </button>
-        </div>
-    </form>
+<!-- 📦 WORKOUT PLAN LIST -->
+<div class="row g-3">
 
+    {% for wp in workout_plans %}
 
-    <!-- workout plan data show in plans_list -->
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
 
-    <div class="row g-3 ">
-        {% for wp in workout_plans %}
+                <!-- Header -->
+                <div class="card-header bg-primary text-white d-flex justify-content-between">
+                    <span>{{ wp.title }}</span>
+                    <small>{{ wp.member.full_name }}</small>
+                </div>
 
-            <div class=" col-md-6">
-                <div class="card shadow-sm ">
-                    <div class="card-header bg-primary text-white d-flex justify-content-between">
-                        <span> {{wp.title}} </span>
-                        
-                        <small> {{wp.member.full_name}} </small>
+                <!-- Body -->
+                <div class="card-body d-flex flex-column">
 
-                    </div>
+                    <p class="small text-muted mb-1">
+                        {{ wp.created_at|date:"Y-m-d H:i" }}
+                    </p>
 
-                    <div class="card-body" >
-                        <p class="small text-muted mb-1">
-                            {{wp.created_at}}
-                        </p>
-                        <p style="white-space: pre-line;"> 
-                            {{wp.description}}
-                        </p>
+                    <p style="white-space: pre-line;" class="flex-grow-1">
+                        {{ wp.description }}
+                    </p>
 
-                        <form method="post"  action="{% url 'admin_workout_plan_delete' wp.id %}" 
-                        class="delete-form" >
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-sm btn-danger">Delete</button> 
+                    <!-- Buttons -->
+                    <div class="d-flex gap-2 mt-2">
 
-                        </button>
-
+                        <!-- DELETE -->
+                        <form method="post"
+                              action="{% url 'admin_workout_plan_delete' wp.id %}"
+                              class="delete-form">
+                            {% csrf_token %}
+                            <button type="submit"
+                                    class="btn btn-sm btn-danger">
+                                Delete
+                            </button>
                         </form>
+
+                        <!-- EDIT -->
+                        <a href="{% url 'admin_workout_plan_edit' wp.id %}"
+                           class="btn btn-sm btn-warning">
+                            Edit
+                        </a>
 
                     </div>
 
                 </div>
 
             </div>
-        
-        {% endfor %}
+        </div>
 
-    </div>
+    {% empty %}
 
-    
+        <!-- if No workout plan or data -->
+        <div class="col-12 text-center">
+            <div class="alert alert-info">
+                No workout plans found.
+            </div>
+        </div>
 
+    {% endfor %}
+
+</div>
 
 {% endblock %}

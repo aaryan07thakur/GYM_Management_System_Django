@@ -609,7 +609,7 @@ def admin_workout_plan_delete(request, plan_id):
 def admin_payments_list(request):
     member_id = request.GET.get('member_id')
     status= request.GET.get('status')
-    payments = payment.objects.select_related('member','plan').all().order_by('-payment_date') #latest payment mathi hunx
+    payments = payment.objects.select_related('member','Plan').all().order_by('-payment_date') #latest payment mathi hunx
 
     if member_id:
         payments= payments.filter(member__id=member_id)

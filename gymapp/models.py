@@ -80,8 +80,11 @@ class MemberProfile(models.Model):
     address = models.TextField(blank=True)
     joining_date = models.DateField(default=timezone.now)  # Set default value to current date
     plan = models.ForeignKey(
-        MembershipPlan, on_delete=models.SET_NULL, null=True, blank=True)  #if plan delete garne bhaye, member profile ma null value rakhne
-    related_name = 'members' # This allows you to access all members associated with a specific 
+        MembershipPlan, 
+        on_delete=models.SET_NULL, 
+        null=True, 
+        blank=True,  #if plan delete garne bhaye, member profile ma null value rakhne
+        related_name = 'members') # This allows you to access all members associated with a specific 
                                 #membership plan using membership_plan.members.all()
     trainer = models.ForeignKey(
         Trainer, on_delete=models.SET_NULL, null=True, blank=True)  #if trainer delete garne bhaye, member profile ma null value rakhne

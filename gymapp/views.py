@@ -609,7 +609,7 @@ def admin_workout_plan_delete(request, plan_id):
 def admin_payments_list(request):
     member_id = request.GET.get('member_id')
     status= request.GET.get('status')
-    payments = payment.objects.select_related('member','plan').all().order_by('-payment_date')
+    payments = payment.objects.select_related('member','plan').all().order_by('-payment_date') #latest payment mathi hunx
 
     if member_id:
         payments= payments.filter(member__id=member_id)
@@ -625,6 +625,7 @@ def admin_payments_list(request):
         'selected_member_id': member_id,
         'selected_status':status,
         })
+
 
 
 
@@ -650,6 +651,37 @@ def admin_payment_add(request):
         
         member = MemberProfile.objects.get(id= member_id)
         plan = MembershipPlan.objects.get(id=plan_id)
+
+        #checking over_payment 
+        if plan and plan.fees:
+            total_paid = payment.objects.filter(
+                member = member, plan = plan, status = 'PAID'
+            ).aggregate(total=models.Sum('amount') )['total'] or 0
+            if total_paid + float(amount) > plan.fees:
+                remaining_amount = plan.fees - total_paid
+                messages.error(request, f'Total paid amount exceeds the plan fee of {plan.fees}.Remaining amount: {remaining_amount}. Please check the amount.')
+                return redirect ('admin_payment_add')
+
+
+        payment.objects.create(
+            member = member,
+            plan = plan,
+            amount = amount,
+            status = status,
+            mode = mode,
+            payment_date=payment_date,
+            notes=notes
+        )
+        #check box tik lage ko x ki naie check garne 
+        if set_membership == 'on' and plan and membership_start:
+            member.plan = plan
+            member.membership_start = membership_start
+            member.membership_end = member.membership_start + timezone.timedelta(days=plan.duration_months*30)
+            member.save()
+
+        messages.success(request, 'Payment recorded successfully! ')
+        return redirect ('admin_payments_list')
+    return render(request, 'admin_payment_form.html', {'members':members, 'plans': plans})
 
         
 

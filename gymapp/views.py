@@ -632,7 +632,7 @@ def admin_payments_list(request):
 @admin_required
 def admin_payment_add(request):
     members = MemberProfile.objects.all().order_by('full_name')
-    plans= MembershipPlan.objects.all().order_by('duration_mobths')
+    plans= MembershipPlan.objects.all().order_by('duration_months')
     if request.method == "POST":
         member_id = request.POST.get('member_id')
         plan_id = request.POST.get('plan_id')

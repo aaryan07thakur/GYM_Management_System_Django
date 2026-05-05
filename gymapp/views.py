@@ -4,7 +4,8 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.utils.dateparse import parse_date
 from .utils import *
-from datetime import date
+from datetime import date,datetime,timedelta
+from django.utils import timezone
 
 
 
@@ -655,17 +656,17 @@ def admin_payment_add(request):
         #checking over_payment 
         if plan and plan.fees:
             total_paid = payment.objects.filter(
-                member = member, plan = plan, status = 'PAID'
+                member = member, Plan = plan, status = 'PAID'
             ).aggregate(total=models.Sum('amount') )['total'] or 0
-            if total_paid + float(amount) > plan.fees:
-                remaining_amount = plan.fees - total_paid
+            if float(total_paid) + float(amount) > float(plan.fees):
+                remaining_amount = float(plan.fees) - float(total_paid)
                 messages.error(request, f'Total paid amount exceeds the plan fee of {plan.fees}.Remaining amount: {remaining_amount}. Please check the amount.')
                 return redirect ('admin_payment_add')
 
 
         payment.objects.create(
             member = member,
-            plan = plan,
+            Plan = plan,
             amount = amount,
             status = status,
             mode = mode,
@@ -674,9 +675,15 @@ def admin_payment_add(request):
         )
         #check box tik lage ko x ki naie check garne 
         if set_membership == 'on' and plan and membership_start:
+            try:
+                member_start = timezone.datetime.strptime(membership_start, '%Y-%m-%d').date()
+            except ValueError:
+                messages.error(request, 'Invalid membership start date format. Please use YYY-MM-DD.')
+                return redirect('admin_payment_add')
             member.plan = plan
-            member.membership_start = membership_start
-            member.membership_end = member.membership_start + timezone.timedelta(days=plan.duration_months*30)
+            member.membership_start = member_start
+            member.membership_end = member_start + timezone.timedelta(days=plan.duration_months*30)
+           
             member.save()
 
         messages.success(request, 'Payment recorded successfully! ')

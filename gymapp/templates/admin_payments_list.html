@@ -58,7 +58,7 @@
             <tr>
                 <th>#</th>
                 <th>Member</th>
-                <th> Plan </th>
+                <th>Plans</th>
                 <th>Amount</th>
                 <th>Date</th>
                 <th>Mode</th>
@@ -72,7 +72,7 @@
             <tr>
                 <td>{{ forloop.counter }}</td>
                 <td> {{payment.member.full_name }} </td>
-                <td> {{payment.plan.name}} </td>
+                <td> {{payment.Plan.name}} </td>
                 <td>Rs {{payment.amount|floatformat:2 }} </td>
                 <td>{{payment.payment_date }} </td>
                 <td> {{payment.mode}} </td>

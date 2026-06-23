@@ -733,4 +733,17 @@ def members_login_view(request):
 
 
 
+def member_required(view_function):
+    # Decorator for member login 
+    #user aunthenticte x ki naie tyo check gar x then user ko role k ho tyo check gar x if member ho vane access pau x 
+    
+    def wrapper(request, *args, **kwargs):
+        if not request.user.is_aunthenticated or getattr(request.user, 'role', None)!= "MEMBER":
+            messages.error(request, "You must me an member to access this page.")
+            return redirect('member.login')
+        return view_function(request, *args, **kwargs)
+    return wrapper
+
+
+
 

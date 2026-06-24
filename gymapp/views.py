@@ -266,7 +266,10 @@ def admin_member_add(request):
             return redirect('admin_member_add')
         
 
-        user = User.objects.create_user(username=username, password= password, role="MEMBER")
+        # user = User.objects.create_user(username=username, password= password, role="MEMBER")
+        user = User.objects.create_user(username=username, password=password)
+        user.role = "MEMBER"
+        user.save(update_fields=['role'])  # ← only saves the role, not other fields
 
         plan = MembershipPlan.objects.get(id=plan_id) if plan_id else None
         trainer = Trainer.objects.get(id=trainer_id) if trainer_id else None
@@ -707,25 +710,23 @@ def admin_payment_add(request):
 
         
 
-
-
-
-
-
-
 #=====================================================================================
+
 def members_login_view(request):
     # Similar to admin_login_view but checks for MEMBER role
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
 
+#user le de ko username and password database ma exist gar x ki naie vane r check gar x if x vane user laie return gar x 
+#if x en vane non return gar x 
         user = authenticate(request, username=username, password=password)
 
-        if user is not None and getattr(user, 'role', None) == 'MEMBER':
+#if user x vane then check gar x member user ho ki naie if yes then login success hun x else invalid
+        if user is not None and getattr(user, 'role', None) == 'MEMBER':  #user model vitra role attribute x ki naei or user is member or not
             login(request, user)
             messages.success(request, 'Login successful!')
-            return redirect('member_dashboard')
+            return redirect('member_dashboard') #member dashboard ma redirect hun x after login
         else:
             messages.error(request, 'Invalid username or password.')
 
@@ -736,14 +737,19 @@ def members_login_view(request):
 def member_required(view_function):
     # Decorator for member login 
     #user aunthenticte x ki naie tyo check gar x then user ko role k ho tyo check gar x if member ho vane access pau x 
-    
+
     def wrapper(request, *args, **kwargs):
-        if not request.user.is_aunthenticated or getattr(request.user, 'role', None)!= "MEMBER":
+        if not request.user.is_authenticated or getattr(request.user, 'role', None)!= "MEMBER":
             messages.error(request, "You must me an member to access this page.")
-            return redirect('member.login')
+            return redirect('member_login')
         return view_function(request, *args, **kwargs)
     return wrapper
 
+
+
+@member_required
+def member_dashboard_view(request):
+    return render (request, 'member_dashboard.html')
 
 
 

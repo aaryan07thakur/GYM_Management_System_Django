@@ -55,6 +55,7 @@ urlpatterns = [
 
 
     path('members-login/', members_login_view, name='members_login'),
+    path('member_dashboard/', member_dashboard_view, name='member_dashboard'),
 
 
 

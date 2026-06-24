@@ -10,7 +10,7 @@ class User(AbstractUser):  #username, password, email, first_name, last_name
 
     ROLE_CHOICES = (
         ('ADMIN', 'Admin'),
-        ('Member', 'Member'),
+        ('MEMBER', 'Member'),
     )
   
     role = models.CharField(max_length=20, choices= ROLE_CHOICES, default='MEMBER')

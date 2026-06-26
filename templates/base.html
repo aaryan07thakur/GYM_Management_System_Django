@@ -67,7 +67,7 @@
             {% elif user.role == 'MEMBER' %}
                 
                 <li class="nav-item">
-                    <a class="nav-link " aria-current="page" href="{% url 'home' %}">Dashboard</a>
+                    <a class="nav-link " aria-current="page" href="{% url 'member_dashboard' %}">Dashboard</a>
                 </li>
                 
                 <li class="nav-item">
@@ -77,7 +77,7 @@
                     <a class="nav-link " aria-current="page" href="{% url 'home' %}">Payments</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " aria-current="page" href="{% url 'home' %}">Attendance</a>
+                    <a class="nav-link " aria-current="page" href="{% url 'member_attendance' %}">Attendance</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link " aria-current="page" href="{% url 'home' %}">Workout Plans</a>

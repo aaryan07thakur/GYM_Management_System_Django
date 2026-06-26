@@ -91,7 +91,7 @@ def admin_dashboard_view(request):
 def logout_view(request):
     logout(request)  # Log out the user and end the session
     messages.success(request, 'You have been logged out successfully.')
-    return redirect('admin_login')  # Redirect to admin login page after logout
+    return redirect('home')  # Redirect to admin login page after logout
 
 
 
@@ -750,6 +750,15 @@ def member_required(view_function):
 @member_required
 def member_dashboard_view(request):
     return render (request, 'member_dashboard.html')
+
+
+@member_required
+def member_attendance(request):
+    member_profile =MemberProfile.objects.get(user=request.user)
+    attendances= Attendance.objects.filter(member=member_profile).order_by('-date')
+    return render(request, 'member_attendance.html',{'attendances': attendances})
+
+
 
 
 

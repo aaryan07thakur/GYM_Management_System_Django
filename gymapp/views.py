@@ -6,6 +6,7 @@ from django.utils.dateparse import parse_date
 from .utils import *
 from datetime import date,datetime,timedelta
 from django.utils import timezone
+from django.db.models import Sum
 
 
 
@@ -759,6 +760,43 @@ def member_attendance(request):
     return render(request, 'member_attendance.html',{'attendances': attendances})
 
 
+@member_required
+def member_membership(request):
+    member= request.user.member_profile
+    
+    days_remaining= None
+    total_paid=0
+    remaining_amount= None
+    membership_status = "No Membership"
+
+    if member.membership_end:
+        days_remaining=(member.membership_end - timezone.now().date()).days
+        if days_remaining <= 0:
+            days_remaining = 0
+            membership_status= "Membership Ended"
+        else:
+            membership_status = "Active"
+
+    if member.plan:
+        aggrigate= payment.objects.filter(
+            member= member,
+            Plan= member.plan,
+            status = 'PAID'
+        ).aggregate(total= Sum('amount'))
+
+        total_paid = aggrigate['total'] or 0
+
+        if member.plan.fees:
+            remaining_amount= float(member.plan.fees) - float(total_paid)
+    
+    context ={
+        'member' : member,
+        'membership_status': membership_status,
+        'days_remaining': days_remaining,
+        'total_paid' : total_paid,
+        'remaining_amount': remaining_amount
+    }
+    return render(request, 'member_membership.html', context)
 
 
 

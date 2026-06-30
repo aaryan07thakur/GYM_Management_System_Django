@@ -17,7 +17,7 @@
 
 
             <tr>
-                <th>Duration</th>
+                <th>Duration(Months) </th>
                 <td> {{member.plan.duration_months}} </td>
             </tr>
 
@@ -50,6 +50,34 @@
             <tr>
                 <th>End Date  </th>
                 <td>{{member.membership_end|default:"-"}} </td>
+            </tr>
+
+
+            <tr>
+                <th> Remaining Days </th>
+                <td>
+                {% if days_remaining is not None %}
+                    {{ days_remaining }} day(s)
+                        {% if membership_status == "Membership_Ended" %}
+                        <span class="text-danger"> (Membership_Ended) </span>
+                        {% elif membership_status == "Active" %}
+                        <span class="text-success"> (Active) </span>
+                        {% endif %}
+
+                    {% else %}
+                       -
+                    {% endif %}
+                </td>
+            </tr>
+
+            <tr>
+                <th>Trainer </th>
+                <td>{{member.trainer.name |default:"Not Assigned" }} </td>
+            </tr>
+
+            <tr>
+                <th>Plan Details </th>
+                <td>{{member.plan.description |default:"Not Details Available" }} </td>
             </tr>
 
 

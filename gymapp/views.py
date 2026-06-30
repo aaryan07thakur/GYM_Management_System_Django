@@ -6,6 +6,7 @@ from django.utils.dateparse import parse_date
 from .utils import *
 from datetime import date,datetime,timedelta
 from django.utils import timezone
+from dateutil.relativedelta import relativedelta
 from django.db.models import Sum
 
 
@@ -257,7 +258,13 @@ def admin_member_add(request):
         age= request.POST.get('age')
         gender = request.POST.get('gender')
         address = request.POST.get('address')
-        joining_date = request.POST.get('joining_date') or timezone.now().date()
+        # joining_date = request.POST.get('joining_date') or timezone.now().date()
+        joining_date = request.POST.get("joining_date")
+        if joining_date:
+            joining_date = datetime.strptime(joining_date, "%Y-%m-%d").date()
+        else:
+            joining_date = timezone.now().date()
+
 
         plan_id = request.POST.get('plan_id')
         trainer_id = request.POST.get('trainer_id')
@@ -275,6 +282,14 @@ def admin_member_add(request):
         plan = MembershipPlan.objects.get(id=plan_id) if plan_id else None
         trainer = Trainer.objects.get(id=trainer_id) if trainer_id else None
 
+        membership_start = joining_date
+        membership_end = None
+        if plan:
+            membership_end = membership_start + relativedelta(
+                months=plan.duration_months
+            )
+
+
         MemberProfile.objects.create(
             user = user,
             full_name = full_name,
@@ -284,7 +299,9 @@ def admin_member_add(request):
             address=address,
             joining_date=joining_date,
             plan=plan,
-            trainer=trainer
+            trainer=trainer,
+            membership_start=membership_start,
+            membership_end=membership_end
         )
         messages.success(request, 'Member added successfully! ')
         return redirect('admin_members_list')

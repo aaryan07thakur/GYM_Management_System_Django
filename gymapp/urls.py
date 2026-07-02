@@ -58,6 +58,8 @@ urlpatterns = [
     path('member_dashboard/', member_dashboard_view, name='member_dashboard'),
     path('member_attendance/', member_attendance, name='member_attendance'),
     path('member_membership/',member_membership, name='member_membership'),
+    path('member-payments/', member_payments, name= 'member_payments'),
+    path('member_workout_plans/', member_workout_plans, name= 'member_workout_plans')
     
 
 

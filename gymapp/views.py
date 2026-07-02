@@ -816,4 +816,15 @@ def member_membership(request):
     return render(request, 'member_membership.html', context)
 
 
+@member_required
+def member_payments(request):
+    member_profile = MemberProfile.objects.get(user=request.user)
+    payments = payment.objects.filter(member= member_profile).order_by('-payment_date')
+    return render(request, 'member_payments.html',{'payments': payments} )
 
+
+@member_required
+def member_workout_plans(request):
+    member_profile = MemberProfile.objects.get(user=request.user)
+    Workout_Plans= WorkoutPlan.objects.filter(member=member_profile).order_by('-created_at')
+    return render(request, 'member_workout_plans.html',{'workout_plans': Workout_Plans} )

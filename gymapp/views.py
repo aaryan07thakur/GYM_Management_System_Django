@@ -828,3 +828,28 @@ def member_workout_plans(request):
     member_profile = MemberProfile.objects.get(user=request.user)
     Workout_Plans= WorkoutPlan.objects.filter(member=member_profile).order_by('-created_at')
     return render(request, 'member_workout_plans.html',{'workout_plans': Workout_Plans} )
+
+
+
+@member_required
+def member_profile(request):
+    member = request.user.member_profile
+    return render(request, 'member_profile.html', {'member': member} )
+
+
+@member_required
+def member_profile_edit(request):
+    member = request.user.member_profile
+    if request.method == 'POST':
+        member.full_name = request.POST.get('full_name')
+        member.mobile = request.POST.get('mobile ')
+        member.age = request.POST.get('age')
+        member.gender = request.POST.get('gender')
+        member.address = request.POST.get('address')
+        member.save()
+        messages.success(request, 'Profile Updated Successfully ')
+        return redirect ('member_profile')
+    return render (request, 'member_profile_edit.html', {'member': member} )
+    
+
+

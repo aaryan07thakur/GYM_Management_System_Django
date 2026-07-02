@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+
+{% block content %}
+
+<h2 class="mb-3" >My Workout / Diet Plan </h2>
+
+{% if workout_plans %}
+
+    <div class="row g-3">
+        {% for wp in workout_plans %}
+        <div class="col md-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white ">
+                    {{ wp.title }}
+                </div>
+                <div class="card-body">
+                    <p class="small text-muted mb-1">Created at: {{ wp.created_at }}</p>
+                    <p style="white-space: pre-line ;"> {{ wp.description }} </p>
+                </div>
+            </div>
+
+        </div>
+        {% endfor %}
+
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        No Workout / Diet Plans assigned to you yet. Please contact your trainer for more information.
+    </div>
+
+{% endif %}
+    
+
+
+{% endblock %}

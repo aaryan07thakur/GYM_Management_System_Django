@@ -819,7 +819,7 @@ def member_membership(request):
 @member_required
 def member_payments(request):
     member_profile = MemberProfile.objects.get(user=request.user)
-    payments = payment.objects.filter(member= member_profile).order_by('-payment_date')
+    payments = payment.objects.filter(member= member_profile).select_related('Plan').order_by('-payment_date')
     return render(request, 'member_payments.html',{'payments': payments} )
 
 

@@ -852,4 +852,28 @@ def member_profile_edit(request):
     return render (request, 'member_profile_edit.html', {'member': member} )
     
 
+@member_required
+def member_change_password(request):
+    if request.method == 'POST':
+        current_password = request.POST.get('current_password')
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+
+        if not request.user.check_password(current_password):
+            messages.error(request, 'Current password is incorrect.')
+            return redirect ('member_change_password')
+        
+        if new_password != confirm_password:
+            messages.error(request, 'New password and confirm password do not match. ')
+            return redirect('member_change_password')
+        
+
+        request.user.set_password(new_password)
+        request.user.save()
+        messages.success(request, 'Password changed successfully! Please login again')
+        return redirect('member_login')
+    return render (request, 'member_change_password.html')
+        
+
+
 

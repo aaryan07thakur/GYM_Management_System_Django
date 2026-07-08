@@ -842,7 +842,7 @@ def member_profile_edit(request):
     member = request.user.member_profile
     if request.method == 'POST':
         member.full_name = request.POST.get('full_name')
-        member.mobile = request.POST.get('mobile ')
+        member.mobile = request.POST.get('mobile')
         member.age = request.POST.get('age')
         member.gender = request.POST.get('gender')
         member.address = request.POST.get('address')
@@ -871,7 +871,7 @@ def member_change_password(request):
         request.user.set_password(new_password)
         request.user.save()
         messages.success(request, 'Password changed successfully! Please login again')
-        return redirect('member_login')
+        return redirect('members_login')
     return render (request, 'member_change_password.html')
         
 

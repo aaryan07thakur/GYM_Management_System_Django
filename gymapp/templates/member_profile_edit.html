@@ -5,51 +5,47 @@
 
 {% block content %}
 
-<h2 class="mb-3" >My Payments </h2>
+<h2 class="mb-3" > Edit Profile </h2>
 
+ <form method="post" class="row g-3 w-75"> 
+    {% csrf_token %}
+    <div class="col-md-6">
+        <label for="full_name" class="form-label">Full Name</label>
+        <input type="text" class="form-control" id="full_name" name="full_name" value=" {{ member.full_name}} ">
 
-    <table class="table table-bordered table-striped ">
+    </div>
 
-        <thead class="table-dark">
-            <tr>
-                <th>#</th>
-                <th> Plan </th>
-                <th> Amount</th>
-                <th> Payment Date </th>
-                <th> Mode </th>
-                <th> Status </th>
-                <th> Notes </th>
-            </tr>
+    <div class="col-md-6">
+        <label for="phone No: "class="form-label">Phone No. </label>
+        <input type="text" class="form-control" id="mobile" name="mobile" value=" {{ member.mobile}} ">
 
-        </thead>
-        <tbody>
-            {% for payment in payments %}
-            <tr>
-                <td>{{ forloop.counter }}</td>
-                <td> {{ payment.Plan.name }} </td>
-                <td> {{ payment.amount }} </td>
-                <td> {{ payment.payment_date }} </td>
-                <td> {{ payment.mode }} </td>
-                <td>
-                    {% if payment.status == 'PAID' %}
-                        <span class="badge bg-success"> {{ payment.status }} </span>
-                    {% elif payment.status == 'PENDING' %}
-                        <span class="badge bg-warning text-dark"> {{ payment.status }} </span>
-                    {% else %}
-                        <span class="badge bg-secondary"> {{ payment.status }} </span>
-                    {% endif %}
-                </td>
-                <td> {{ payment.notes }} </td>
-            </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="3" class="text-center"> No Payments records found </td>
-                </tr>
+    </div>
 
-            {% endfor %}
-        </tbody>
+    <div class="col-md-3">
+        <label for="age" class="form-label"> Age </label>
+        <input type="text" class="form-control" id="age" name="age" value=" {{ member.age}} ">
 
-    </table>
+    </div>
+
+    <div class="col-md-3">
+        <label for="gender" class="form-label"> Gender </label>
+       <select class="form-select"  id="gender" name="gender">
+            <option value = "MALE" {% if member.gender == "MALE" %} selected {% endif %} > Male </option>
+            <option value="FEMALE" {% if member.gender == "FEMALE" %} selected {% endif %} > Female </option>
+            <option value="OTHER" {% if member.gender == "OTHER" %} selected {% endif %} > Other </option>
+       </select>
+
+    </div>
+
+    <div class="col-md-12">
+        <label for="address" class="form-label"> Address </label>
+        <textarea class="form-control" id="address" name="address"> {{ member.address}} </textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary"> Save Changes </button>
+
+ </form>
+
 
 
 {% endblock %}

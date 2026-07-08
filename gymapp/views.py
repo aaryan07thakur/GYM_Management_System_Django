@@ -767,7 +767,18 @@ def member_required(view_function):
 
 @member_required
 def member_dashboard_view(request):
-    return render (request, 'member_dashboard.html')
+    member= request.user.member_profile
+    total_attendance = member.attendances.count()
+    total_payments = member.payments.count()
+    total_workout = member.workout_plans.count()
+    return render (request, 'member_dashboard.html',
+                   {
+                       'member' : member,
+                       'total_attendance': total_attendance,
+                       'total_workout' : total_workout,
+                       'total_payments' : total_payments
+                   })
+
 
 
 @member_required

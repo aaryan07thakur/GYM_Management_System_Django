@@ -64,7 +64,9 @@ urlpatterns = [
 
     path('member-profile/', member_profile, name = 'member_profile'),
     path('member_change_password/', member_change_password, name= 'member_change_password'),
-    path('member_profile_edit/', member_profile_edit, name= 'member_profile_edit')
+    path('member_profile_edit/', member_profile_edit, name= 'member_profile_edit'),
+
+    path('member_feedback/', member_feedback, name= 'member_feedback')
     
 
 

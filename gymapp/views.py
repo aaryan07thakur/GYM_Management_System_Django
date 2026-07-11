@@ -887,4 +887,18 @@ def member_change_password(request):
         
 
 
+@member_required
+def member_feedback(request):
+    member = request.user.member_profile
+    if request.method == 'POST':
+        message = request.POST.get('message', '').strip()
+        if message:
+            Feedback.objects.create(member= member, message=message)
+            messages.success(request, 'Your feedback has been submitted successfully!')
+            return redirect('member_feedback') #Redirect to feedback page after submitting feedback.
+        else:
+            messages.error(request, 'Please enter your feedback before Submitting. ')
+    Feedbacks= member.feedbacks.all().order_by('-created_at')
+    return render(request, 'member_feedback.html',{'Feedbacks':Feedbacks})
+
 

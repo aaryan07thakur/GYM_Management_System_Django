@@ -722,8 +722,22 @@ def admin_payment_add(request):
         return redirect ('admin_payments_list')
     return render(request, 'admin_payment_form.html', {'members':members, 'plans': plans})
 
-        
 
+@admin_required
+def admin_feedback_list(request):
+    member_id = request.GET.get('member_id')
+    feedbacks = Feedback.objects.select_related('member').all().order_by('-created_at')
+    members = MemberProfile.objects.all().order_by('full_name')
+
+    if member_id:
+        feedbacks = feedbacks.filter(member_id = member_id)
+
+    context = {
+        'feedbacks' : feedbacks,
+        'members' : members,
+        'selected_member_id' : int(member_id) if member_id else None,
+    }
+    return render(request, 'admin_feedbacks_list.html', context)
 
 
         

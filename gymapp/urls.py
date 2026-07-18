@@ -49,6 +49,7 @@ urlpatterns = [
     path('admin_payments/', admin_payments_list , name= 'admin_payments_list'),
     path('admin_payment_add/', admin_payment_add, name = 'admin_payment_add'),
 
+    path('admin_feedbacks_list/', admin_feedback_list, name= 'admin_feedback_list' ),
 
 
 

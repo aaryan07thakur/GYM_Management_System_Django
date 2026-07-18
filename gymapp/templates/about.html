@@ -2,14 +2,202 @@
 {% load static %}
 
 {% block css %}
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:wght@400;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{% static 'css/about.css' %}">
-
 {% endblock %}
 
 {% block content %}
+<div class="about-page">
 
-<h1 class="text-center mt-5 ">About Us</h1>
-<p>Welcome to our Gym Management System! We are dedicated to providing the best fitness experience for our members.</p>
+  <!-- ===== HERO SECTION ===== -->
+  <div class="ab-hero">
+    <div class="ab-hero-grid">
+      <div class="ab-hero-text">
+        <span class="ab-tag">N&deg; 02 &mdash; WHO WE ARE</span>
+        <h1 class="ab-headline">The system<br>behind the <span class="pop">sweat.</span></h1>
+        <p class="ab-sub">
+          We aren't just pushing numbers; we're optimizing the floor. Built by trainers who live in the iron game and engineered for owners who demand flawless execution. From the front desk to the equipment rack, we keep your momentum unbroken.
+        </p>
+        <div class="ab-hero-actions">
+          <a href="#story" class="btn-primary">Read Our Story</a>
+          <a href="#features" class="btn-secondary">Explore Features</a>
+        </div>
+      </div>
+      <div class="ab-hero-image-wrapper">
+        <!-- Replace with actual image path: e.g., {% static 'images/gym-hero.jpg' %} -->
+        <img src="{% static 'images/about_image1.jpeg' %}" alt="Gym Floor Management" class="ab-hero-img">
+        <div class="img-badge">EST. 2026</div>
+      </div>
+    </div>
+  </div>
 
+  <!-- ===== STATS STRIP ===== -->
+  <div class="ab-stats-bar">
+    <div class="ab-stat-item">
+      <span class="stat-num">500k+</span>
+      <span class="stat-label">Active Members</span>
+    </div>
+    <div class="ab-stat-item">
+      <span class="stat-num">1,200+</span>
+      <span class="stat-label">Gyms Powered</span>
+    </div>
+    <div class="ab-stat-item">
+      <span class="stat-num">99.9%</span>
+      <span class="stat-label">Uptime Tracked</span>
+    </div>
+    <div class="ab-stat-item">
+      <span class="stat-num">24/7</span>
+      <span class="stat-label">Live Support</span>
+    </div>
+  </div>
+
+  <!-- ===== OUR STORY & TIMELINE ===== -->
+  <div class="ab-story-section" id="story">
+    <div class="section-header">
+      <span class="ab-kicker">01 / THE ORIGIN</span>
+      <h2 class="ab-h2">Built from absolute chaos.</h2>
+    </div>
+    
+    <div class="story-grid">
+      <div class="story-desc">
+        <p class="lead-text">
+          Gym Management System started where all good tools do — out of pure frustration with a whiteboard nobody updated and spreadsheets that lagged behind reality.
+        </p>
+        <p>
+          We saw gym owners drowning in manual check-ins, missing maintenance cycles on $10k cable crossovers, and losing track of trainer shifts in chaotic group chats. So, we built a bulletproof architecture running Python, Django, and SQLite to run the heaviest operations smoothly.
+        </p>
+      </div>
+      
+      <!-- Interactive Visual Timeline -->
+      <div class="ab-timeline">
+        <div class="timeline-track"></div>
+        <div class="timeline-step">
+          <div class="time-marker">2023</div>
+          <div class="time-content">
+            <h5>The Whiteboard Crisis</h5>
+            <p>First prototype built in a garage to fix a single local gym's broken membership ledger.</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="time-marker">2024</div>
+          <div class="time-content">
+            <h5>Going Multi-Location</h5>
+            <p>Launched cloud sync across 50 regional fitness hubs, introducing real-time automation.</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="time-marker">2026</div>
+          <div class="time-content">
+            <h5>The Industry Standard</h5>
+            <p>Powering corporate chains and local iron sanctuaries globally with zero bloat.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CORE VALUES ===== -->
+  <div class="ab-values-section" id="values">
+    <div class="section-header text-center">
+      <span class="ab-kicker">02 / CORE PILLARS</span>
+      <h2 class="ab-h2">Four things we never compromise on.</h2>
+    </div>
+    
+    <div class="values-grid">
+      <div class="value-card">
+        <div class="card-top">
+          <span class="v-num">01</span>
+          <img src="{% static 'images/about_image2.jpeg' %}" alt="Discipline" class="value-card-img">
+        </div>
+        <h5>Absolute Discipline</h5>
+        <p>Every feature must earn its spot on the dashboard. No unnecessary clutter, no flashy bloat — just raw performance tools.</p>
+      </div>
+      
+      <div class="value-card">
+        <div class="card-top">
+          <span class="v-num">02</span>
+          <img src="{% static 'images/about_image3.jpeg' %}" alt="Transparency" class="value-card-img">
+        </div>
+        <h5>Ironclad Transparency</h5>
+        <p>Clear audit logs for every member, invoice, and equipment repair. Nothing ever gets lost or overwritten in a hidden file.</p>
+      </div>
+      
+      <div class="value-card">
+        <div class="card-top">
+          <span class="v-num">03</span>
+          <img src="{% static 'images/about_image4.jpeg' %}" alt="Consistency" class="value-card-img">
+        </div>
+        <h5>Heavy Consistency</h5>
+        <p>Engineered to handle the Monday evening 6:00 PM rush hour exactly the same as a quiet Tuesday sunrise.</p>
+      </div>
+      
+      <div class="value-card">
+        <div class="card-top">
+          <span class="v-num">04</span>
+          <img src="{% static 'images/about_image5.jpeg' %}" alt="Community" class="value-card-img">
+        </div>
+        <h5>Built For The Floor</h5>
+        <p>Directly engineered alongside the gym owners, front-desk staff, and heavy lifters who actually run the floor.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== FEATURE SHOWCASE ===== -->
+  <div class="ab-features-section" id="features">
+    <div class="features-wrapper">
+      <span class="ab-kicker">03 / PRODUCT CAPABILITIES</span>
+      <h2 class="ab-h2">One central nervous system.<br>Every aspect covered.</h2>
+      
+      <div class="features-list">
+        <div class="feature-row">
+          <span class="f-idx">01</span>
+          <div class="f-meta">
+            <h4>Member Management</h4>
+            <p>Profiles, active plans, automated renewals, and liability waivers organized in one searchable vault.</p>
+          </div>
+        </div>
+        <div class="feature-row">
+          <span class="f-idx">02</span>
+          <div class="f-meta">
+            <h4>Attendance Tracking</h4>
+            <p>High-speed barcode, QR, or biometric check-ins built directly to prevent queue lines at peak hours.</p>
+          </div>
+        </div>
+        <div class="feature-row">
+          <span class="f-idx">03</span>
+          <div class="f-meta">
+            <h4>Predictive Equipment Log</h4>
+            <p>Track pulley wear, cable conditions, and set automated alerts for preventative machine maintenance.</p>
+          </div>
+        </div>
+        <div class="feature-row">
+          <span class="f-idx">04</span>
+          <div class="f-meta">
+            <h4>Trainer Scheduling</h4>
+            <p>Coordinate personal training slots and group fitness rosters seamlessly without shift conflicts.</p>
+          </div>
+        </div>
+        <div class="feature-row">
+          <span class="f-idx">05</span>
+          <div class="f-meta">
+            <h4>Automated Billing</h4>
+            <p>Recurring credit card processing, custom invoices, and direct cash ledger tracking built right in.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CALL TO ACTION ===== -->
+  <div class="ab-cta-section" id="contact">
+    <div class="cta-box">
+      <h2>Ready to bring structural discipline to your gym?</h2>
+      <p>Talk to our operations team. We reply with solid details within one business day.</p>
+      <a href="{% url 'home' %}" class="btn-cta">Deploy To Your Gym &rarr;</a>
+    </div>
+  </div>
+
+</div>
 {% endblock %}

@@ -1,0 +1,297 @@
+:root{
+  --paper:   #F1ECDF;   /* warm paper cream page background */
+  --ink:     #16150F;   /* near-black warm ink */
+  --ink-70:  rgba(22,21,15,.7);
+  --card:    #FBF8F0;   /* index-card paper, slightly lighter than page */
+  --accent:  #F5C400;   /* chrome / safety yellow */
+  --rule:    #C9C2AC;   /* hairline on paper */
+  --muted:   #6E6A5A;
+}
+
+/* =========================================================
+   HERO — duotone photo poster, mounted on a paper margin
+   ========================================================= */
+.hero-wrapper{
+  background: var(--paper);
+  padding: 2.4rem 0 3.2rem;
+}
+
+.hero-frame{
+  position: relative;
+  min-height: 78vh;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--ink);
+  background-color: var(--ink);
+  display: flex;
+  align-items: center;
+}
+
+.hero-bg-img{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 1;
+  filter: grayscale(1) contrast(1.08) brightness(.85);
+}
+
+/* duotone tint, blended over the grayscale photo */
+.hero-overlay{
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(135deg, var(--ink) 15%, var(--accent) 145%);
+  mix-blend-mode: multiply;
+  opacity: .92;
+}
+
+/* fine halftone grain for a screen-print poster feel */
+.hero-grain{
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: .12;
+  background-image: radial-gradient(circle, #000 1px, transparent 1px);
+  background-size: 5px 5px;
+}
+
+.content-layer{
+  position: relative;
+  z-index: 4;
+  width: 100%;
+}
+
+/* corner index tag, like a poster plate number */
+.hero-tag{
+  position: absolute;
+  top: 22px;
+  left: 22px;
+  z-index: 5;
+  font-family:'Space Mono', monospace;
+  font-size: .72rem;
+  letter-spacing: .08em;
+  color: var(--ink);
+  background: var(--accent);
+  padding: .3rem .6rem;
+  border: 1px solid var(--ink);
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+
+/* bottom masthead strip */
+.hero-masthead{
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  z-index: 5;
+  display:flex;
+  align-items:center;
+  gap:.7rem;
+  padding: .7rem 1.6rem;
+  border-top: 1px solid rgba(241,236,223,.25);
+  font-family:'Space Mono', monospace;
+  font-size:.68rem;
+  letter-spacing:.12em;
+  text-transform: uppercase;
+  color: rgba(241,236,223,.75);
+}
+.hero-masthead .tick{ color: rgba(241,236,223,.35); }
+
+/* =========================================================
+   COPY
+   ========================================================= */
+.text-section{ padding: 1rem 1.8rem; }
+
+.gms-headline{
+  font-family:'Archivo Black', sans-serif;
+  text-transform: uppercase;
+  font-size: clamp(2.3rem, 4.6vw, 3.5rem);
+  line-height: .98;
+  color: var(--paper);
+  margin: .2rem 0 1.1rem;
+}
+.gms-headline .pop{ color: var(--accent); }
+
+.text-light-muted{
+  color: rgba(241,236,223,.82);
+  font-size: 1.04rem;
+  line-height: 1.68;
+  max-width: 46ch;
+  margin-bottom: .8rem;
+}
+.text-light-muted strong{ color: var(--paper); }
+
+/* ruler / tick divider listing feature tags — signature element */
+.gms-ruler{
+  margin-top: 1.8rem;
+  padding-top: .9rem;
+  background-image: repeating-linear-gradient(
+    to right,
+    rgba(241,236,223,.55) 0, rgba(241,236,223,.55) 1px,
+    transparent 1px, transparent 14px
+  );
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: 100% 8px;
+  display:flex;
+  flex-wrap: wrap;
+  gap: .5rem 1.4rem;
+}
+.gms-ruler span{
+  font-family:'Space Mono', monospace;
+  font-size:.68rem;
+  letter-spacing:.08em;
+  text-transform: uppercase;
+  color: rgba(241,236,223,.85);
+}
+.gms-ruler span::before{ content:"— "; color: var(--accent); }
+
+/* =========================================================
+   ENQUIRY CARD — a taped index card, not glass
+   ========================================================= */
+.card-col{ padding: 1rem 1.8rem; }
+
+.custom-card{
+  position: relative;
+  background: var(--card);
+  border: 1.5px solid var(--ink);
+  border-radius: 3px;
+  color: var(--ink);
+  transform: rotate(-1.1deg);
+  box-shadow: 8px 10px 0 rgba(22,21,15,.35);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.custom-card:hover{
+  transform: rotate(0deg) translateY(-2px);
+  box-shadow: 10px 12px 0 rgba(22,21,15,.4);
+}
+
+/* washi-tape strip pinning the card down */
+.custom-card::before{
+  content:"";
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  width: 92px;
+  height: 26px;
+  background: rgba(245,196,0,.85);
+  border: 1px solid rgba(22,21,15,.25);
+  transform: translateX(-50%) rotate(2.5deg);
+  box-shadow: 0 2px 4px rgba(0,0,0,.15);
+}
+
+.custom-card .card-header{
+  background: transparent !important;
+  border-bottom: 2px solid var(--ink);
+  padding: 1.5rem 1.4rem .9rem;
+  text-align: left;
+}
+.custom-card .card-header .kicker{
+  display:inline-block;
+  font-family:'Space Mono', monospace;
+  font-size:.66rem;
+  letter-spacing:.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: var(--accent);
+  border: 1px solid var(--ink);
+  padding: .15rem .5rem;
+  border-radius: 2px;
+  margin-bottom: .6rem;
+}
+.custom-card .card-header h4{
+  font-family:'Archivo Black', sans-serif;
+  text-transform: uppercase;
+  font-size: 1.3rem;
+  color: var(--ink);
+}
+.custom-card .card-header p{ color: var(--muted); }
+
+.custom-card .card-body{ padding: 1.3rem 1.4rem 1.6rem; }
+
+.custom-input-group{ margin-bottom: 1.15rem; }
+.custom-input-group .form-label{
+  font-family:'Space Mono', monospace;
+  font-weight: 500;
+  font-size: .68rem;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: .35rem;
+}
+
+/* underline-style inputs — typewriter form feel, not boxed */
+.custom-input-group .form-control{
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px solid var(--rule);
+  border-radius: 0;
+  color: var(--ink);
+  padding: .5rem .1rem;
+  font-size: .98rem;
+  transition: border-color .2s ease;
+}
+.custom-input-group .form-control::placeholder{ color: #A7A18C; }
+.custom-input-group .form-control:focus{
+  background: transparent;
+  border-bottom-color: var(--ink);
+  box-shadow: none;
+  outline: none;
+}
+.custom-input-group textarea.form-control{ resize: vertical; min-height: 70px; }
+
+.btn-submit{
+  background: var(--ink);
+  color: var(--paper);
+  border: 1.5px solid var(--ink);
+  border-radius: 3px;
+  letter-spacing: .07em;
+  transition: background .18s ease, color .18s ease, transform .12s ease;
+}
+.btn-submit:hover{
+  background: var(--accent);
+  color: var(--ink);
+}
+.btn-submit:active{ transform: translateY(1px); }
+.btn-submit:focus-visible{
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.card-fineprint{
+  text-align:center;
+  font-size:.74rem;
+  color: var(--muted);
+  margin-top: .9rem;
+}
+
+/* =========================================================
+   ENTRY ANIMATION
+   ========================================================= */
+.fade-in-left, .fade-in-right{ opacity: 0; }
+.fade-in-left{ animation: fadeInLeft .8s cubic-bezier(.16,1,.3,1) .1s forwards; }
+.fade-in-right{ animation: fadeInRight .8s cubic-bezier(.16,1,.3,1) .25s forwards; }
+
+@keyframes fadeInLeft{
+  from{ opacity:0; transform: translateX(-30px); }
+  to{ opacity:1; transform: translateX(0); }
+}
+@keyframes fadeInRight{
+  from{ opacity:0; transform: translateX(30px) rotate(-1.1deg); }
+  to{ opacity:1; transform: translateX(0) rotate(-1.1deg); }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .fade-in-left, .fade-in-right{ animation: none; opacity: 1; }
+}
+
+@media (max-width: 767px){
+  .hero-frame{ min-height: auto; padding: 2.4rem 0 2rem; }
+  .text-section, .card-col{ padding: 1rem 1.1rem; }
+  .custom-card{ transform: rotate(0deg); }
+  .custom-card::before{ display:none; }
+  .hero-masthead{ position: static; margin-top: 1.6rem; border-top: 1px solid rgba(241,236,223,.25); }
+}

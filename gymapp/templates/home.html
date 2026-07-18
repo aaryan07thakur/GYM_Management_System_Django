@@ -1,59 +1,101 @@
-
 {% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:wght@400;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
 
 {% block content %}
+<div class="hero-wrapper">
+  <div class="container">
+    <div class="hero-frame">
 
+      <img src="{% static 'images/gym_home.jpeg' %}" alt="Gym training floor" class="hero-bg-img">
+      <div class="hero-overlay"></div>
+      <div class="hero-grain"></div>
 
-<div class="container">
-  <div class="row">
-    
-    <div class="col-md-7">
-      <h1 class="mb-3">Welcome to the Gym Management System</h1>
-      <p>Simple gym management system built with python, Django, bootstrap, html, css and Sqlite</p>
-      <p>Manage members, equipment, attendance and many more features!</p>
-    </div>
+      <span class="hero-tag">N&deg; 01 &mdash; Gym Management System </span>
 
-    <div class="col-md-5">
-      <div class="card shadow-sm">
-        
-        <div class="card-header bg-primary text-white">
-          Contact / Enquiry
-        </div> 
-        
-        <div class="card-body">
-          <form method="post">
-            {% csrf_token %}
+      <div class="container content-layer">
+        <div class="row align-items-center">
 
-            <div class="mb-3">
-              <label for="name" class="form-label">Name</label>
-              <input type="text" class="form-control" id="name" name="name" placeholder="Enter your full Name " required>
+          <!-- Left Column -->
+          <div class="col-md-7 text-section fade-in-left">
+            <h1 class="gms-headline">
+              Train hard.<br>
+              Run <span class="pop">harder.</span>
+            </h1>
+            <p class="text-light-muted">
+              <strong>Gym Management System</strong> pulls your front desk,
+              training floor and ledger into one dashboard &mdash; members,
+              machines, attendance and payments, tracked without a single
+              spreadsheet.
+            </p>
+            <p class="text-light-muted">
+              No sticky notes for renewal dates. No guessing which machine's
+              overdue for service. Just a clear, live record of what's
+              happening on your floor, right now.
+            </p>
+
+            <div class="gms-ruler"> <!-- ruler ko kam gar x line jastai aau x -->
+              <span>Members</span>
+              <span>Trainers</span>
+              <span>Equipment</span>
+              <span>Attendance</span>
+              <span>Payments</span>
             </div>
+          </div>
 
-            <div class="mb-3">
-              <label for="email" class="form-label">Email</label>
-              <input type="email" class="form-control" id="email"  name="email" placeholder="Enter your email " required>
+          <!-- Right Column -->
+          <div class="col-md-5 card-col fade-in-right">
+            <div class="card custom-card shadow-lg">
+              <div class="card-header">
+                <span class="kicker">Enquiry</span>
+                <h4 class="mb-1">Front Desk</h4>
+                <p class="small mb-0">We reply within one business day.</p>
+              </div>
+
+              <div class="card-body">
+                <form method="post">
+                  {% csrf_token %}
+                  <div class="mb-3 custom-input-group">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter your full name" required>
+                  </div>
+                  <div class="mb-3 custom-input-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                  </div>
+                  <div class="mb-3 custom-input-group">
+                    <label for="mobile" class="form-label">Mobile</label>
+                    <input type="text" class="form-control" id="mobile" name="mobile" maxlength="10" placeholder="Enter your mobile number" required>
+                  </div>
+                  <div class="mb-3 custom-input-group">
+                    <label for="message" class="form-label">Message</label>
+                    <textarea class="form-control" id="message" rows="3" name="message" placeholder="How can we help you?" required></textarea>
+                  </div>
+                  <button type="submit" class="btn btn-submit w-100 py-2 fw-bold text-uppercase mt-2">Get On The List &rarr;</button>
+                </form>
+                <p class="card-fineprint">Real reply, real person &mdash; no auto bounce-backs.</p>
+              </div>
             </div>
+          </div>
 
-            <div class="mb-3">
-              <label for="mobile" class="form-label">Mobile</label>
-              <input type="text" class="form-control" id="mobile" name="mobile" maxlength="10" placeholder="Enter your mobile number " required >
-            </div>
-
-            <div class="mb-3">
-              <label for="message" class="form-label">Message</label>
-              <textarea type="text" class="form-control" rows="3" name="message" placeholder="Enter your message " required></textarea>
-            </div>
-
-
-
-            <button type="submit" class="btn btn-primary w-100">Submit Enquiry</button>
-          </form>
         </div>
-
       </div>
-    </div>
 
+      <div class="hero-masthead">
+        <span>GMS &middot; Member Operating System</span>
+        <span class="tick">/</span>
+        <span>Django Core</span>
+        <span class="tick">/</span>
+        <span>SQLite Powered</span>
+      </div>
+
+    </div>
   </div>
 </div>
-
 {% endblock %}

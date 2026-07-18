@@ -16,12 +16,11 @@
             <div class="card-body">
                 <form method="post"> 
                     {% csrf_token %}
-                    <div class="col-mb-3">
+                    <div class="mb-3">
                         <label class="form-label"> Your Feedback </label>
                         <textarea class="form-control" name="message" rows="3" required> </textarea>
                     </div>
-
-                    <button type="submit" class="btn btn-primary"> Send Feedback </button>
+                    <button type="submit" class="btn btn-primary"> Submit </button>
                 </form>
 
             </div>

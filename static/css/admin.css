@@ -1,0 +1,288 @@
+/* =========================================================
+   DESIGN SYSTEM VARIABLE TOKENS
+   ========================================================= */
+:root {
+  --bg-main:       #F4F1EA; /* Premium paper background */
+  --text-solid:    #11110E; /* Deep solid ink black */
+  --bg-card:       #FFFFFF; /* Pure crisp white for forms */
+  --color-brand:   #FFD200; /* Energetic cyber gym yellow */
+  --color-border:  #11110E; /* Hard brutalist outer lines */
+  --text-muted:    #555246; /* Legible dark gray */
+  --font-heading:  'Archivo Black', sans-serif;
+  --font-mono:     'Space Mono', monospace;
+  --font-sans:     'Manrope', sans-serif;
+}
+
+.login-container {
+  min-height: calc(100vh - 80px); /* Adjust based on your navbar height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-main);
+  padding: 2rem 1rem;
+  font-family: var(--font-sans);
+}
+
+/* =========================================================
+   SPLIT CARD LAYOUT
+   ========================================================= */
+.login-split-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  max-width: 1050px;
+  background: var(--bg-card);
+  border: 4px solid var(--color-border);
+  border-radius: 12px;
+  box-shadow: 10px 10px 0px var(--color-border);
+  overflow: hidden;
+}
+
+/* left side Visual Content */
+.login-visual-side {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 3.5rem;
+  min-height: 500px;
+  background-color: var(--text-solid);
+  border-right: 4px solid var(--color-border);
+}
+
+.login-bg-img {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%) contrast(120%) brightness(50%);
+  z-index: 1;
+}
+
+.visual-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(to top, rgba(17,17,14,0.95) 20%, rgba(17,17,14,0.4));
+  z-index: 2;
+}
+
+.visual-content {
+  position: relative;
+  z-index: 3;
+  color: #FFFFFF;
+}
+
+.admin-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  background: #FF3B30; /* Alert Red for security alert vibe */
+  color: #fff;
+  padding: 0.3rem 0.6rem;
+  border: 2px solid #fff;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+}
+
+.visual-title {
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  line-height: 0.95;
+  margin-bottom: 1rem;
+}
+
+.visual-subtitle {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 35ch;
+  margin: 0;
+}
+
+/* right side Login Form Content */
+.login-form-side {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3.5rem;
+  background-color: var(--bg-card);
+}
+
+.form-wrapper {
+  width: 100%;
+  max-width: 380px;
+}
+
+.form-header {
+  margin-bottom: 2.5rem;
+}
+
+.form-tag {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.form-title {
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  font-size: 2.2rem;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.form-subtitle {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* Error Alerts */
+.form-errors {
+  background: #FFEBEB;
+  border: 2px solid #FF3B30;
+  padding: 0.8rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+}
+
+.error-msg {
+  color: #FF3B30;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* =========================================================
+   NEO-BRUTALIST INPUT FIELDS
+   ========================================================= */
+.form-group-custom {
+  margin-bottom: 1.5rem;
+}
+
+.custom-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 14px;
+  font-size: 1.1rem;
+  user-select: none;
+  pointer-events: none;
+}
+
+.custom-input {
+  width: 100%;
+  padding: 1rem 1rem 1rem 2.8rem;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-solid);
+  background: var(--bg-main);
+  border: 2.5px solid var(--color-border);
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+
+.custom-input:focus {
+  outline: none;
+  background: #FFF;
+  box-shadow: 4px 4px 0px var(--color-brand);
+  transform: translate(-2px, -2px);
+}
+
+/* Button UI */
+.btn-login-submit {
+  width: 100%;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 1rem;
+  text-transform: uppercase;
+  padding: 1.1rem;
+  margin-top: 1rem;
+  background: var(--color-brand);
+  color: var(--text-solid);
+  border: 3px solid var(--color-border);
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 4px 4px 0px var(--color-border);
+  transition: all 0.12s ease-in-out;
+}
+
+.btn-login-submit:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--color-border);
+  background: #FFF;
+}
+
+.btn-login-submit:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px var(--color-border);
+}
+
+.form-footer {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.back-link {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.back-link:hover {
+  color: var(--text-solid);
+  text-decoration: underline;
+}
+
+/* =========================================================
+   RESPONSIVE LAYOUT MEDIA QUERIES
+   ========================================================= */
+@media (max-width: 850px) {
+  .login-split-card {
+    grid-template-columns: 1fr;
+    max-width: 480px;
+  }
+  
+  .login-visual-side {
+    display: none; /* Mobile ma thorai space lina image ghatau nu par x  */
+  }
+
+  .login-form-side {
+    padding: 3rem 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-container {
+    padding: 1rem 0.5rem;
+  }
+  .login-form-side {
+    padding: 2.5rem 1.2rem;
+  }
+  .form-title {
+    font-size: 1.8rem;
+  }
+}

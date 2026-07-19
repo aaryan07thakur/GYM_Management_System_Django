@@ -1,29 +1,73 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:wght@400;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/admin.css' %}">
+{% endblock %}
 
 {% block content %}
+<div class="login-container">
+    <div class="login-split-card">
+        
+        <!-- left side ko image-->
+        <div class="login-visual-side">
+            <img src="{% static 'images/admin_image.jpeg' %}" alt="Gym Admin Control" class="login-bg-img">
+            <div class="visual-overlay"></div>
+            <div class="visual-content">
+                <span class="admin-badge">HQ COMMAND</span>
+                <h2 class="visual-title">The Central<br>Nervous<br>System.</h2>
+                <p class="visual-subtitle">Authorized personnel only. Secure terminal access.</p>
+            </div>
+        </div>
 
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow-sm">
-                <div class="card-header bg-dark text-white">
-                    <h3>Admin Login</h3>
+        <!-- right side ko  -->
+        <div class="login-form-side">
+            <div class="form-wrapper">
+                <div class="form-header">
+                    <span class="form-tag">SECURE ACCESS</span>
+                    <h1 class="form-title">Admin Login</h1>
+                    <p class="form-subtitle">Enter your credentials to control the floor.</p>
                 </div>
-                <div class="card-body">
-                    <form method="post">
-                        {% csrf_token %}
-                        <div class="mb-3">
-                            <label class="form-label">UserName</label>
-                            <input type="text" class="form-control" id="username" placeholder="Enter your username" name="username" required>
+
+                <form method="post" class="neo-form">
+                    {% csrf_token %}
+                    
+                    {% if messages %}
+                    <div class="form-errors">
+                        {% for message in messages %}
+                            <p class="error-msg">⚠️ {{ message }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <div class="form-group-custom">
+                        <label for="username" class="custom-label">Terminal Username</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">👤</span>
+                            <input type="text" class="custom-input" id="username" placeholder="e.g., admin_hq" name="username" required autocomplete="username">
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" placeholder="Enter your password" name="password" required>
+                    </div>
+
+                    <div class="form-group-custom">
+                        <label for="password" class="custom-label">Security Password</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">🔒</span>
+                            <input type="password" class="custom-input" id="password" placeholder="••••••••••••" name="password" required autocomplete="current-password">
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">Login</button>
-                    </form>
+                    </div>
+
+                    <button type="submit" class="btn-login-submit">Authenticate &rarr;</button>
+                </form>
+
+                <div class="form-footer">
+                    <a href="{% url 'home' %}" class="back-link">&larr; Return to main site</a>
                 </div>
             </div>
         </div>
-    </div>
 
+    </div>
+</div>
 {% endblock %}

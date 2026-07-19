@@ -1,62 +1,69 @@
-
-
 {% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/admin_dashboard.css' %}">
+{% endblock %}
 
 {% block content %}
-    
-<h2 class="mb-4"> Admin Dashboard </h2>
+<!-- background image -->
+<img src="{% static 'images/admin_dashboard_image.jpeg' %}" alt="Gym training floor" class="dashboard-bg-image">
 
-<div class="row g-3">
-    <div class="col-md-3" >
-        <div class="card text-bg-primary">
-            <div class="card-body">
-                <h5 card="title"> Total Members</h5>
-                <p class="fs-3"> {{total_members}} </p>
+<!-- dark over layer image mathi hun x -->
+<div class="dashboard-overlay"></div>
+
+<!-- Dashboard all content -->
+<div class="container py-4">
+    <h2 class="mb-4">Admin Dashboard</h2>
+
+    <div class="row g-3">
+        <div class="col-md-3">
+            <div class="card text-bg-primary">
+                <div class="card-body">
+                    <h5 class="card-title">Total Members</h5>
+                    <p class="fs-3">{{total_members}}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card text-bg-success">
+                <div class="card-body">
+                    <h5 class="card-title">Active Members</h5>
+                    <p class="fs-3">{{active_membership}}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="card text-bg-info">
+                <div class="card-body">
+                    <h5 class="card-title">Total Registration</h5>
+                    <p class="fs-3">{{total_registration}}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card text-bg-danger">
+                <div class="card-body">
+                    <h5 class="card-title">Pending Payments</h5> 
+                    <p class="fs-3">{{pending_payments}}</p> 
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="col-md-3" >
-        <div class="card text-bg-success">
-            <div class="card-body">
-                <h5 card="title"> Active Members</h5>
-                <p class="fs-3"> {{active_membership}} </p>
-            </div>
-        </div>
-    </div>
-    
-    <div class="col-md-3" >
-        <div class="card text-bg-info">
-            <div class="card-body">
-                <h5 card="title"> Total Registration</h5>
-                <p class="fs-3"> {{total_registration}} </p>
-            </div>
-        </div>
-    </div>
+    <hr class="my-5">
 
-    <div class="col-md-3" >
-        <div class="card text-bg-danger">
-            <div class="card-body">
-                <h5 card="title"> Total Pending Payments</h5>
-                <p class="fs-3"> {{pending_payments}} </p> 
-            </div>
-        </div>
+    <h4 class="mb-3 text-uppercase fs-6 tracking-wider opacity-75">Quick Management</h4>
+    <div class="d-flex flex-wrap gap-3">
+        <a href="{% url 'admin_members_list' %}" class="btn btn-outline-primary">Manage Members</a>
+        <a href="{% url 'admin_plans_list' %}" class="btn btn-outline-secondary">Manage Plans</a>
+        <a href="{% url 'admin_trainers_list' %}" class="btn btn-outline-success">Manage Trainers</a>
+        <a href="{% url 'admin_payments_list' %}" class="btn btn-outline-danger">Manage Payments</a>
+        <a href="{% url 'admin_enquiries_list' %}" class="btn btn-outline-info">Manage Enquiries</a>
+        <a href="{% url 'admin_equipment_list' %}" class="btn btn-outline-warning">Manage Equipment</a>
     </div>
 </div>
-
-<hr class="my-4"> <!-- line ko lagie-->
-
-<div class="d-flex flex-wrap gap-2">
-    <a href="{% url 'admin_members_list' %}" class="btn btn-outline-primary">Manage Members </a>
-    <a href="{% url 'admin_plans_list' %}"class="btn btn-outline-secondary"> Manage Plans </a>
-    <a href="{% url 'admin_trainers_list' %}"class="btn btn-outline-success"> Manage Trainers </a>
-    <a href="{% url 'admin_payments_list' %}"class="btn btn-outline-danger"> Manage Payments </a>
-    <a href="{% url 'admin_enquiries_list' %}" class="btn btn-outline-info"> Manage Enquiries </a>
-    <a href="{% url 'admin_equipment_list' %}" class="btn btn-outline-warning"> Manage Equipment </a>
-
-
-</div>
-
-
-
 {% endblock %}

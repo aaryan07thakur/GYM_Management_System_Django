@@ -1,24 +1,75 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:wght@400;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Separated css file for cleaner management -->
+<link rel="stylesheet" href="{% static 'css/member_login.css' %}">
+{% endblock %}
+
 {% block content %}
+<div class="member-login-container">
+    <div class="member-split-card animate-fade-in">
+        
+        <!-- left side ko degsined-->
+        <div class="member-visual-side">
+            <img src="{% static 'images/member_login.jpeg' %}" alt="Gym Member Training" class="member-bg-img">
+            <div class="member-overlay"></div>
+            <div class="member-visual-content">
+                <span class="member-badge">⚡ ATHLETE PORTAL</span>
+                <h2 class="member-visual-title">Welcome<br>Back to the<br><span class="highlight">Grind.</span></h2>
+                <p class="member-visual-subtitle">Log in to track your sessions, check schedules, and crush your weekly targets.</p>
+            </div>
+        </div>
 
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h3>Member Login</h3>
+        <!-- right side form -->
+        <div class="member-form-side">
+            <div class="member-form-wrapper">
+                <div class="member-form-header">
+                    <span class="member-form-tag">MEMBER SIGN-IN</span>
+                    <h1 class="member-form-title">Member Login</h1>
+                    <p class="member-form-subtitle">Enter your details to open your dashboard.</p>
                 </div>
-                <div class="card-body">
-                    <form method="post">
-                        {% csrf_token %}
-                        <div class="mb-3">
-                            <label class="form-label">UserName</label>
-                            <input type="text" class="form-control" id="username" placeholder="Enter your username" name="username" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" placeholder="Enter your password" name="password" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100">Login</button>
-                    </form>
 
+                <form method="post" class="member-neo-form">
+                    {% csrf_token %}
+                    
+                    <!-- Django Messages Handling (Invalid login/errors show here) -->
+                    {% if messages %}
+                    <div class="member-form-errors animate-shake">
+                        {% for message in messages %}
+                            <p class="member-error-msg">⚠️ {{ message }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <div class="member-group-custom">
+                        <label for="username" class="member-custom-label">Username</label>
+                        <div class="member-input-wrapper">
+                            <span class="member-input-icon">👤</span>
+                            <input type="text" class="member-custom-input" id="username" placeholder="Enter your username" name="username" required autocomplete="username">
+                        </div>
+                    </div>
+
+                    <div class="member-group-custom">
+                        <label for="password" class="member-custom-label">Password</label>
+                        <div class="member-input-wrapper">
+                            <span class="member-input-icon">🔑</span>
+                            <input type="password" class="member-custom-input" id="password" placeholder="••••••••••••" name="password" required autocomplete="current-password">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-member-submit">Enter Dashboard &rarr;</button>
+                </form>
+
+                <div class="member-form-footer">
+                    <a href="{% url 'home' %}" class="member-back-link">&larr; Back to Home</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
 {% endblock %}

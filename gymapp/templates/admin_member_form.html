@@ -1,109 +1,233 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+
+<link rel="stylesheet" href="{% static 'css/admin_member_form.css' %}">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+{% endblock %}
+
 
 {% block content %}
 
+<div class="member-container">
 
-<h2 class="mb-3">
+    <div class="page-header">
 
-    {% if mode == 'ADD' %} Add New Member  {% else %} Edit Member {% endif %}
-</h2>
+        <div>
+            <h2>
+                {% if mode == 'ADD' %}
+                <i class="fa-solid fa-user-plus"></i> Add New Member
+                {% else %}
+                <i class="fa-solid fa-user-pen"></i> Edit Member
+                {% endif %}
+            </h2>
 
-<form method= "post" class= "row g-3 w-75" >
-    {% csrf_token %}
+            <p>Manage member information easily.</p>
 
-    {% if mode == 'ADD' %}
-    <div class="col-md-6">
-        <label class="form-label"> Username </label>
-        <input type="text" name="username" class="form-control" required>
-    </div>
+        </div>
 
-    <div class="col-md-6">
-        <label class="form-label"> Password </label>
-        <input type="password" maxlength="10" name="password" class="form-control" required >
-    </div>
-
-    {% endif %}
-
-    <div class="col-md-6">
-        <label class="form-label">Full Name</label>
-        <input type="text" name="full_name" class="form-control" value="{{member.full_name|default:'' }}">
+        <a href="{% url 'admin_members_list' %}" class="btn btn-light">
+            <i class="fa-solid fa-arrow-left"></i> Back
+        </a>
 
     </div>
 
+    <div class="form-card">
 
-    <div class="col-md-3">
-        <label class="form-label">Mobile No. </label>
-        <input type='text' maxlength= '10' name="mobile" class="form-control" value= "{{ member.mobile|default:'' }}">
+        <form method="post" class="row g-4">
+
+            {% csrf_token %}
+
+
+            <!-- ================= ACCOUNT ================= -->
+
+            {% if mode == 'ADD' %}
+
+                <div class="col-12">
+
+                    <div class="section-title">
+                        <i class="fa-solid fa-user-lock me-2"></i>
+                        Account Information
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <label class="form-label">Username</label>
+
+                    <input
+                    type="text"
+                    name="username"
+                    class="form-control"
+                    required>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <label class="form-label">Password</label>
+
+                    <input type="password" name="password" maxlength="10" class="form-control" required>
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- ================= PERSONAL ================= -->
+
+            <div class="col-12">
+
+                <div class="section-title">
+
+                    <i class="fa-solid fa-circle-info me-2"></i>
+
+                    Personal Information
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6">
+
+                <label class="form-label"> Full Name </label>
+
+                <input type="text" name="full_name" class="form-control" value="{{ member.full_name|default:'' }}">
+
+            </div>
+
+
+            <div class="col-md-3">
+
+                <label class="form-label"> Mobile </label>
+
+                <input type="text" maxlength="10" name="mobile" class="form-control" value="{{ member.mobile|default:'' }}">
+
+            </div>
+
+
+            <div class="col-md-3">
+
+                <label class="form-label"> Age </label>
+
+                <input type="number" name="age" min="0" class="form-control" value="{{ member.age|default:'' }}">
+
+            </div>
+
+
+            <div class="col-md-3">
+
+                <label class="form-label"> Gender </label>
+
+                <select name="gender" class="form-select">
+
+                    <option value="">Select</option>
+
+                    <option value="Male" {% if member.gender == 'Male' %}selected{% endif %}> Male </option>
+
+                    <option value="Female" {% if member.gender == 'Female' %}selected{% endif %}> Female </option>
+
+                    <option value="Other" {% if member.gender == 'Other' %}selected{% endif %}> Other </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="col-md-9">
+
+                <label class="form-label"> Address </label>
+
+                <textarea name="address" rows="2" class="form-control">{{ member.address|default:'' }}</textarea>
+
+            </div>
+
+
+            <!-- ================= MEMBERSHIP ================= -->
+
+            <div class="col-12">
+
+                <div class="section-title">
+
+                    <i class="fa-solid fa-dumbbell me-2 "> </i> Membership Information
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <label class="form-label"> Joining Date </label>
+
+                <input type="date" name="joining_date" class="form-control" value="{{ member.joining_date|default:'' }}">
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <label class="form-label"> Membership Plan </label>
+
+                <select name="plan_id" class="form-select">
+                    <option value=""> No Plan</option>
+
+                    {% for plan in plans %}
+
+                        <option value="{{ plan.id }}" {% if member.plan.id == plan.id %}selected{% endif %}> {{ plan.name }} 
+                            ({{ plan.duration_months }} Month) </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                    <label class="form-label"> Trainer </label>
+
+                <select name="trainer_id" class="form-select">
+
+                    <option value=""> No Trainer </option>
+
+                    {% for trainer in trainers %}
+
+                        <option value="{{ trainer.id }}" {% if member.trainer.id == trainer.id %}selected{% endif %}> {{ trainer.name }} </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <div class="col-12 text-end mt-4">
+
+                <button class="btn save-btn"> 
+                    {% if mode == 'ADD' %}
+                        <i class="fa-solid fa-user-plus"></i> Add Member {% else %}
+                        <i class="fa-solid fa-floppy-disk"></i> Update Member
+
+                    {% endif %}
+
+                </button>
+                
+                <a href="{% url 'admin_members_list' %}" class="btn cancel-btn"> Cancel </a>
+
+            </div>
+
+        </form>
+
     </div>
 
-    <div class="col-md-3">
-        <label class="form-label">Age</label>
-        <input type='number' min="0" step="1" name="age" class="form-control" value= "{{ member.age|default:'' }}" >
-    </div>
-
-    <div class="col-md-3">
-        <label class="form-label">Gender</label>
-        <select name="gender" class="form-select" >
-            <option value=""> Select Gender </option>
-            <option value = "Male"  {% if member.gender == 'Male' %} selected {% endif %}> Male</option>
-            <option value = "Female"  {% if member.gender == 'Female' %} selected {% endif %}> Female</option>
-            <option value = "Other"  {% if member.gender == 'Other' %} selected {% endif %}> Other</option>
-        </select>
-    </div>
-
-    <div class="col-md-3">
-        <label class="form-label"> Join Date </label>
-        <input type="date" name="joining_date" class="form-control" value="{{member.joining_date|default:''}}">
-
-    </div>
-
-    <div class="col-md-6">
-        <label class="form-label"> Address </label>
-        <textarea name="address" class="form-control" rows="2">{{member.address|default:''}} </textarea>
-
-    </div>
-
-    <div class="col-md-6">
-        <label class="form-label"> Membership Plan </label>
-        <select name="plan_id" class="form-select">
-            <option value=""> No Plan </option>
-            {% for plan in plans %}
-            <option value="{{ plan.id }}" {% if member.plan.id == plan.id %}selected {% endif %}>
-            {{plan.name }} ({{plan.duration_months }} month) - {{plan.fees }} 
-        </option>
-        {% endfor %}
-        </select>
-    </div>
-
-
-    <div class="col-md-6">
-        <label class="form-label"> Trainer </label>
-        <select name="trainer_id" class="form-select">
-            <option value=""> No Trainer </option>
-            {% for trainer in trainers %}
-            <option value="{{ trainer.id }}" {% if member.trainer.id == trainer.id %}selected {% endif %}>
-            {{trainer.name }} ({{trainer.experience_years}} - {{trainer.specialization }} )
-        </option>
-        {% endfor %}
-        </select>
-    </div>
-
-    <!-- button for add plan ko lagie  -->
-    <div class="col-md-12">
-        <button type="submit" class="btn btn-primary" >
-            {% if mode == 'ADD' %} Add Member {% else %} Update Member {% endif %}
-
-        </button>
-        <a href="{% url 'admin_members_list' %}" class="btn btn-secondary"> Cancel</a>
-    </div>
-
-</form>
-
-
-
-
-
-
-
+</div>
 
 {% endblock %}

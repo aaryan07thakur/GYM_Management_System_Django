@@ -1,52 +1,144 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+
+<link rel="stylesheet" href="{% static 'css/admin_plan_form.css' %}">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+{% endblock %}
 
 {% block content %}
-   
-<h2 class="mb-3">
 
-    {% if mode == 'add' %} Add Plan  {% else %} Edit Plan {% endif %}
-</h2>
+<div class="plan-container">
 
-<form method= "post" class= "row g-3 w-75" >
-    {% csrf_token %}
-    <div class="col-md-6">
-        <label class="form-label">Plan Name </label>
-        <input type="text" name="name" class="form-control" value="{{plan.name|default:'' }}">
+    <div class="page-header">
+
+        <div>
+
+            <h2>
+
+                {% if mode == 'add' %}
+
+                <i class="fa-solid fa-circle-plus"></i> Add Membership Plan
+
+                {% else %}
+
+                <i class="fa-solid fa-pen-to-square"></i> Edit Membership Plan
+
+                {% endif %}
+
+            </h2>
+
+            <p>Create and manage gym membership plans.</p>
+
+        </div>
+
+        <a href="{% url 'admin_plans_list' %}" class="btn btn-light">
+
+            <i class="fa-solid fa-arrow-left"></i>
+
+            Back
+
+        </a>
 
     </div>
 
-    <div class="col-md-3">
-        <label class="form-label">Duration (months) </label>
-        <input type="number" name="duration_months" class="form-control" 
-                value="{{plan.duration_months|default:'' }}" >
+
+    <div class="form-card">
+
+        <form method="post" class="row g-4">
+
+            {% csrf_token %}
+
+            <div class="col-12">
+
+                <div class="section-title">
+
+                    <i class="fa-solid fa-medal"></i>
+
+                    Plan Information
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6">
+
+                <label class="form-label"> Plan Name </label>
+
+                <input type="text" name="name" class="form-control" value="{{ plan.name|default:'' }}" required>
+
+            </div>
+
+
+            <div class="col-md-3">
+
+                <label class="form-label"> Duration (Months) </label>
+
+                <input type="number" name="duration_months" class="form-control" value="{{ plan.duration_months|default:'' }}" required>
+
+            </div>
+
+
+            <div class="col-md-3">
+
+                <label class="form-label"> Fee (Rs.) </label>
+
+                <input type="number" step="0.01" name="fees" class="form-control" value="{{ plan.fees|default:'' }}" required>
+
+            </div>
+
+            <div class="alert alert-light border mb-4">
+                <i class="fa-solid fa-lightbulb text-primary"></i>
+                Add the membership benefits, facilities, and important details for this plan in Description
+            </div>
+
+
+            <div class="col-12">
+
+                <label class="form-label"> Description / Features </label>
+
+                <textarea name="description" rows="4" class="form-control">{{ plan.description|default:'' }}</textarea>
+
+            </div>
+
+
+            <div class="col-12 text-end">
+
+                <button class="btn save-btn">
+
+                    {% if mode == 'add' %}
+
+                    <i class="fa-solid fa-plus"></i>
+
+                    Add Plan
+
+                    {% else %}
+
+                    <i class="fa-solid fa-floppy-disk"></i>
+
+                    Update Plan
+
+                    {% endif %}
+
+                </button>
+
+                <a href="{% url 'admin_plans_list' %}" class="btn cancel-btn">
+
+                    Cancel
+
+                </a>
+
+            </div>
+
+        </form>
 
     </div>
 
-    <div class="col-md-3">
-        <label class="form-label">Plan Fee </label>
-        <input type="number" step="0.01" name="fees" class="form-control" value="{{plan.fees|default:'' }}">
+</div>
 
-    </div>
-
-
-    <div class="col-md-12">
-        <label class="form-label">Description / Features</label>
-        <textarea name="description" class="form-control" rows="3">{{ plan.description|default:'' }}</textarea>
-    </div>
-
-
-    <!-- button for add plan ko lagie  -->
-    <div class="col-md-12">
-        <button type="submit" class="btn btn-primary" >
-            {% if mode == 'add' %} Add Plan {% else %} Update Plan {% endif %}
-
-        </button>
-        <a href="{% url 'admin_plans_list' %}" class="btn btn-secondary"> Cancel</a>
-    </div>
-
-</form>
-
-
-
-
-{% endblock  %}
+{% endblock %}

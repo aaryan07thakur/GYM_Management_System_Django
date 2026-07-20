@@ -1,63 +1,145 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+
+<link rel="stylesheet" href="{% static 'css/admin_trainer_form.css' %}">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+{% endblock %}
 
 {% block content %}
 
+<div class="trainer-container">
 
-<h2 class="mb-3">
+    <div class="page-header">
 
-    {% if mode == 'add' %} Add Trainer  {% else %} Edit Trainer {% endif %}
-</h2>
+        <div>
 
-<form method= "post" class= "row g-3 w-75" >
-    {% csrf_token %}
-    <div class="col-md-6">
-        <label class="form-label">Trainer Name </label>
-        <input type="text" name="name" class="form-control" value="{{trainer.name|default:'' }}">
+            <h2>
+
+                {% if mode == 'add' %}
+
+                <i class="fa-solid fa-user-plus"></i> Add Trainer
+
+                {% else %}
+
+                <i class="fa-solid fa-user-pen"></i> Edit Trainer
+
+                {% endif %}
+
+            </h2>
+
+            <p>Manage trainer information.</p>
+
+        </div>
+
+        <a href="{% url 'admin_trainers_list' %}" class="btn btn-light">
+
+            <i class="fa-solid fa-arrow-left"></i>
+
+            Back
+
+        </a>
 
     </div>
 
-    <div class="col-md-3">
-        <label class="form-label">mobile No:  </label>
-        <input type="text" maxlength="10" name="mobile" class="form-control" 
-                value="{{trainer.mobile|default:'' }}" >
+    <div class="form-card">
+
+        <form method="post" class="row g-4">
+
+            {% csrf_token %}
+
+            <div class="col-12">
+
+                <div class="section-title">
+
+                    <i class="fa-solid fa-dumbbell"></i>
+
+                    Trainer Information
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <label class="form-label">Trainer Name</label>
+
+                <input type="text" name="name" class="form-control" value="{{ trainer.name|default:'' }}" required>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <label class="form-label">Mobile Number</label>
+
+                <input type="text" maxlength="10" name="mobile" class="form-control" 
+                value="{{ trainer.mobile|default:'' }}" required>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <label class="form-label">Specialization</label>
+
+                <input type="text" name="specialization" class="form-control"
+                value="{{ trainer.specialization|default:'' }}">
+
+            </div>
+
+            <div class="col-md-6">
+
+                <label class="form-label">Shift Timing</label>
+
+                <input type="text" name="shift_timing" class="form-control" placeholder="e.g. 6:00 AM - 10:00 AM"
+                value="{{ trainer.shift_timing|default:'' }}">
+
+            </div>
+
+            <div class="col-md-6">
+
+                <label class="form-label">Experience (Years)</label>
+
+                <input type="number" min="0" name="experience_years" class="form-control"
+                value="{{ trainer.experience_years|default:'' }}">
+
+            </div>
+
+            <div class="col-12 text-end">
+
+                <button class="btn save-btn">
+
+                    {% if mode == 'add' %}
+
+                    <i class="fa-solid fa-user-plus"></i>
+
+                    Add Trainer
+
+                    {% else %}
+
+                    <i class="fa-solid fa-floppy-disk"></i>
+
+                    Update Trainer
+
+                    {% endif %}
+
+                </button>
+
+                <a href="{% url 'admin_trainers_list' %}" class="btn cancel-btn">
+
+                    Cancel
+
+                </a>
+
+            </div>
+
+        </form>
 
     </div>
 
-    <div class="col-md-3">
-        <label class="form-label">Specialization</label>
-        <input type="text" name="specialization" class="form-control" value="{{trainer.specialization|default:'' }}">
-
-    </div>
-
-
-    <div class="col-md-3">
-        <label class="form-label">shift_Timing</label>
-        <input type='text' name="shift_timing" class="form-control" value= "{{ trainer.shift_timing|default:'' }}"
-        placeholder= "e.g 6AM - 10AM " >
-    </div>
-
-    <div class="col-md-3">
-        <label class="form-label">experienced_years</label>
-        <input type='number' min="0" step="1" name="experience_years" class="form-control" value= "{{ trainer.experience_years|default:'' }}" >
-    </div>
-
-
-    <!-- button for add plan ko lagie  -->
-    <div class="col-md-12">
-        <button type="submit" class="btn btn-primary" >
-            {% if mode == 'add' %} Add Trainer {% else %} Update Trainer {% endif %}
-
-        </button>
-        <a href="{% url 'admin_trainers_list' %}" class="btn btn-secondary"> Cancel</a>
-    </div>
-
-</form>
-
-
-
-
-
-
-
+</div>
 
 {% endblock %}

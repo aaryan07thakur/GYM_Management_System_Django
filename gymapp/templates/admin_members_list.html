@@ -1,72 +1,226 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/admin_members_list.css' %}">
 
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+{% endblock %}
 
 {% block content %}
 
-<div class="d-flex justify-content-between align-items-center mb-3 ">
-    <h2> Members  </h2>
+<div class="member-page">
 
-    <a href="{% url 'admin_member_add' %}" class="btn btn-primary">Add New Member </a>
+    <!-- Header -->
+
+    <div class="page-header">
+
+        <div>
+
+            <h2>👥 Members</h2>
+
+            <p>Manage all gym members easily.</p>
+
+        </div>
+
+        <a href="{% url 'admin_member_add' %}" class="btn add-btn">
+
+            <i class="bi bi-person-plus-fill"></i>
+
+            Add Member
+
+        </a>
+
+    </div>
+
+    <!-- Search  feature ko lagie -->
+
+    <div class="search-card">
+
+        <form method="get" class="row g-3">
+
+            <div class="col-md-10">
+
+                <div class="search-box">
+
+                    <i class="bi bi-search"></i>
+
+                    <input
+                        type="text"
+                        name="search"
+                        class="form-control"
+                        placeholder="Search by member name..."
+                        value="{{ search }}">
+
+                </div>
+
+            </div>
+
+            <div class="col-md-2">
+
+                <button class="btn search-btn w-100">
+
+                    Search
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+    <!-- Table -->
+
+    <div class="table-card">
+
+        <div class="table-responsive">
+
+            <table class="table member-table align-middle">
+
+                <thead>
+
+                    <tr>
+
+                        <th>#</th>
+
+                        <th>Member</th>
+
+                        <th>Username</th>
+
+                        <th>Mobile</th>
+
+                        <th>Plan</th>
+
+                        <th>Trainer</th>
+
+                        <th>Joining Date</th>
+
+                        <th>Actions</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for member in members %}
+
+                <tr>
+
+                    <td>{{ forloop.counter }}</td>
+
+                    <td>
+
+                        <div class="member-info">
+
+                            <div class="avatar">
+
+                                {{ member.full_name|slice:":1"|upper }}
+
+                            </div>
+
+                            <div>
+
+                                <strong>{{ member.full_name }}</strong>
+
+                                <small>ID : {{ member.id }}</small>
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+                    <td>{{ member.user.username }}</td>
+
+                    <td>{{ member.mobile }}</td>
+
+                    <td>
+
+                        <span class="badge bg-success">
+
+                            {{ member.plan.name|default:"Not Assigned" }}
+
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        {{ member.trainer.name|default:"Not Assigned" }}
+
+                    </td>
+
+                    <td>
+
+                        {{ member.joining_date }}
+
+                    </td>
+
+                    <td>
+
+                        <div class="button-group">
+
+                            <a href="{% url 'admin_member_edit' member.id %}"
+
+                            class="btn edit-btn">
+
+                                <i class="bi bi-pencil-fill"></i>
+
+                            </a>
+
+                            <form method="post"
+
+                            action="{% url 'admin_member_delete' member.id %}"
+
+                            class="inline-form">
+
+                                {% csrf_token %}
+
+                                <button
+
+                                type="submit"
+
+                                class="btn delete-btn"
+
+                                onclick="return confirm('Are you sure?')">
+
+                                    <i class="bi bi-trash-fill"></i>
+
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="8" class="text-center p-5">
+
+                        No members found 
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
 </div>
-
-
-    <form method="get" class="row g-2 mb-3"> 
-        <div class="col-md-4">
-            <input type="text" name="search" class="form-control" placeholder="search by name... " value="{{ search }}">
-
-        </div>
-        <div class="col-md-2">
-           <button type="submit" class="btn btn-secondary "> Search </button>
-        </div>
-    </form>
-
-    <table class="table table-bordered table-striped ">
-
-        <thead class="table-dark">
-            <tr>
-                <th>#</th>
-                <th>Full Name</th>
-                <th> Username </th>
-                <th>Mobile</th>
-                <th>Plan</th>
-                <th>Trainer</th>
-                <th>Join Date </th>
-                <th>Actions</th>
-
-            </tr>
-
-        </thead>
-        <tbody>
-            {% for member in members %}
-            <tr>
-                <td>{{ forloop.counter }}</td>
-                <td> {{member.full_name }} </td>
-                <td> {{member.user.username}} </td>
-                <td> {{member.mobile }} </td>
-                <td> {{member.plan.name|default:"No Plan Assigned" }} </td>
-                <td> {{member.trainer.name|default:"No Plan Assigned" }} </td>
-                <td> {{member.joining_date}} </td>
-
-                <td>
-                    <div class="button-group">
-                        <a href="{% url 'admin_member_edit' member.id %}" class="btn btn-sm btn-warning" > Edit </a>
-                        <!-- delete button ko Features by form because it is more secure -->
-                        <form method="post" action="{% url 'admin_member_delete' member.id %}" class="inline-form" >
-                            {% csrf_token %}
-                             <input type="hidden" name="trainer_id" value="{{trainer_id }}"> 
-                            <button type="submit" class="btn btn-sm btn-danger " 
-                            onclick = "return confirm('Are you sure you want to delete this Member ? ')">Delete </button>
-
-                        </form>
-                    </div>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-
-    </table>
-
 
 {% endblock %}

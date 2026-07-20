@@ -48,7 +48,7 @@ def admin_login_view(request):
         password = request.POST.get('password')
 
 # authenticate function le check garxa ki username ra password sahi cha ki nai database ma , ani user object return garxa
-        user = authenticate(request, username=username, password=password) 
+        user = authenticate(request, username=username, password=password)
 
         if user is not None and getattr(user, 'role', None) == 'ADMIN':  # Check if the user is authenticated and has the admin role
             login(request, user) # Login the user and create a session

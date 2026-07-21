@@ -1,75 +1,226 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block css %}
 
+<link rel="stylesheet" href="{% static 'css/admin_attendance_list.css' %}">
+
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+{% endblock %}
 
 {% block content %}
 
-<div class="d-flex justify-content-between align-items-center mb-3 ">
-    <h2> Attendances ({{ selected_date }})  </h2>
+<div class="attendance-page">
 
-    <a href="{% url 'admin_attendance_add' %}" class="btn btn-primary">Mark Attendance </a>
+    <div class="page-header">
+
+        <div>
+
+            <h2>
+                <i class="bi bi-calendar-check-fill"></i>
+                Attendance
+            </h2>
+
+            <p>Attendance Records ({{ selected_date }})</p>
+
+        </div>
+
+        <a href="{% url 'admin_attendance_add' %}" class="btn add-btn">
+
+            <i class="bi bi-plus-circle-fill"></i>
+
+            Mark Attendance
+
+        </a>
+
+    </div>
+
+    <!-- Filter -->
+
+    <div class="filter-card">
+
+        <form method="get" class="row g-3">
+
+            <div class="col-md-4">
+
+                <label class="form-label">
+
+                    Date
+
+                </label>
+
+                <input
+
+                type="date"
+
+                name="date"
+
+                value="{{ selected_date|date:'Y-m-d' }}"
+
+                class="form-control">
+
+            </div>
+
+            <div class="col-md-5">
+
+                <label class="form-label">
+
+                    Member
+
+                </label>
+
+                <select
+
+                name="member_id"
+
+                class="form-select">
+
+                    <option value=""> All Members </option>
+
+                    {% for member in members %}
+
+                    <option value="{{ member.id }}"
+
+                        {% if member.id|stringformat:"s" == selected_member_id %}
+
+                        selected
+
+                        {% endif %}>
+
+                            {{ member.full_name }}
+
+                            ({{ member.user.username }})
+
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+            <div class="col-md-3 d-flex align-items-end">
+
+                <button class="btn filter-btn w-100">
+
+                    <i class="bi bi-funnel-fill"></i>
+
+                    Filter
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+    <!-- Table -->
+
+    <div class="table-card">
+
+        <div class="table-responsive">
+
+            <table class="table attendance-table align-middle">
+
+                <thead>
+
+                    <tr>
+
+                        <th>#</th>
+
+                        <th>Member</th>
+
+                        <th>Date</th>
+
+                        <th>Time In</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for attendance in attendances %}
+
+                    <tr>
+
+                        <td>{{ forloop.counter }}</td>
+
+                        <td>
+
+                            <div class="member-info">
+
+                                <div class="avatar">
+
+                                    {{ attendance.member.full_name|slice:":1"|upper }}
+
+                                </div>
+
+                                <div>
+
+                                    <strong>
+
+                                        {{ attendance.member.full_name }}
+
+                                    </strong>
+
+                                    <small>
+
+                                        {{ attendance.member.user.username }}
+
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            {{ attendance.date }}
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-success">
+
+                                {{ attendance.time_in }}
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="4"
+
+                        class="text-center py-5">
+
+                            No Attendance Records Found
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
 </div>
-
-
-    <form method="get" class="row g-2 mb-3"> 
-        <div class="col-md-4">
-            <label class="form-label">Date</label>
-            <!-- Date filter -->
-            <input type="date" name="date" class="form-control" value="{{selected_date|date:'Y-m-d'}}">
-
-        </div>
-
-        <div class="col-md-4">
-            <label class="form-label">Member</label>
-
-            <!-- Member filter -->
-            <select name="member_id" class="form-select" >
-            <option value=""> All Member </option>
-            {% for member in members %}
-            <option value="{{member.id }}" 
-            {% if member.id|stringformat:"s" == selected_member_id %}selected{% endif %} >
-                {{ member.full_name }} ({{ member.user.username }})
-            </option>
-            {% endfor %}
-        </select>
-
-        </div>
-
-
-        <div class="col-md-2 d-flex align-items-end " >
-           <button type="submit" class="btn btn-secondary w-100 "> Filter </button>
-        </div>
-    </form>
-
-    <table class="table table-bordered table-striped ">
-
-        <thead class="table-dark">
-            <tr>
-                <th>#</th>
-                <th>Member</th>
-                <th> Date </th>
-                <th>Time In</th>
-            </tr>
-
-        </thead>
-        <tbody>
-            {% for attendance in attendances %}
-            <tr>
-                <td>{{ forloop.counter }}</td>
-                <td> {{attendance.member.full_name }} </td>
-                <td> {{attendance.date}} </td>
-                <td> {{attendance.time_in }} </td>
-            </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="4" class="text-center"> No attendance records found </td>
-                </tr>
-
-            {% endfor %}
-        </tbody>
-
-    </table>
-
 
 {% endblock %}

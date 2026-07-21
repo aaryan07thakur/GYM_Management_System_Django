@@ -1,61 +1,137 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+
+<link rel="stylesheet" href="{% static 'css/admin_attendance_form.css' %}">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+{% endblock %}
 
 {% block content %}
 
+<div class="attendance-container">
 
-<h2 class="mb-3">
+    <div class="page-header">
 
-    Mark Attendance
-</h2>
+        <div>
 
-<form method= "post" class= "row g-3 w-75" >
-    {% csrf_token %}
+            <h2>
+                <i class="fa-solid fa-calendar-check"></i>
+                Mark Attendance
+            </h2>
 
+            <p>Record today's member attendance.</p>
 
-    <div class="col-md-6">
-        <label class="form-label"> Member </label>
-        <select name="member_id" class="form-select" required >
-            <option value=""> Select Member </option>
-            {% for member in members %}
-            <option value="{{member.id }}" >
-                {{ member.full_name }} ({{ member.user.username }})
-            </option>
-            {% endfor %}
-        </select>
+        </div>
+
+        <a href="{% url 'admin_attendance_list' %}" class="btn btn-light">
+
+            <i class="fa-solid fa-arrow-left"></i>
+
+            Back
+
+        </a>
 
     </div>
 
+    <div class="form-card">
 
-    <div class="col-md-3">
-        <label class="form-label"> Date </label>
-        <input type='date' name="date" 
-        class="form-control" 
-        max="{{ today|date:'Y-m-d' }}"  required>
+        <form method="post" class="row g-4">
+
+            {% csrf_token %}
+
+            <div class="col-12">
+
+                <div class="section-title">
+
+                    <i class="fa-solid fa-user-check"></i>
+
+                    Attendance Information
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+
+                    Member
+
+                </label>
+
+                <select name="member_id" class="form-select" required>
+
+                    <option value="">Select Member</option>
+
+                    {% for member in members %}
+
+                    <option value="{{ member.id }}">
+
+                        {{ member.full_name }}
+                        ({{ member.user.username }})
+
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <label class="form-label"> Date </label>
+
+                <input type="date" name="date" class="form-control" max="{{ today|date:'Y-m-d' }}" required>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <label class="form-label"> Time In </label>
+
+                <input type="time" name="time_in" class="form-control" required>
+
+            </div>
+
+            <div class="col-12">
+
+                <div class="alert alert-light border">
+
+                    <i class="fa-solid fa-circle-info text-primary"></i>
+
+                    Attendance can only be recorded up to today's date.
+
+                </div>
+
+            </div>
+
+            <div class="col-12 text-end">
+
+                <button class="btn save-btn">
+
+                    <i class="fa-solid fa-check"></i>
+
+                    Save Attendance
+
+                </button>
+
+                <a href="{% url 'admin_attendance_list' %}" class="btn cancel-btn">
+
+                    Cancel
+
+                </a>
+
+            </div>
+
+        </form>
+
     </div>
 
-    <div class="col-md-3">
-        <label class="form-label">Time In</label>
-        <input type='time' name="time_in" class="form-control" required >
-    </div>
-
-
-
-    <!-- button for add plan ko lagie  -->
-    <div class="col-md-12">
-        <button type="submit" class="btn btn-primary" >
-            Add Attendance
-
-        </button>
-        <a href="{% url 'admin_attendance_list' %}" class="btn btn-secondary"> Cancel</a>
-    </div>
-
-</form>
-
-
-
-
-
-
-
+</div>
 
 {% endblock %}

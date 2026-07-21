@@ -1,100 +1,171 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block css %}
+
+<link rel="stylesheet" href="{% static 'css/admin_workout_plan_list.css' %}">
+
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+{% endblock %}
+
 {% block content %}
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h2>Workout Plans / Diet Plans ({{ selected_date }})</h2>
+<div class="workout-page">
 
-    <a href="{% url 'admin_workout_plan_add' %}" class="btn btn-primary">
-        Add Workout / Diet Plan
-    </a>
-</div>
+    <div class="page-header">
 
-<!-- 🔍 FILTER FORM -->
-<form method="get" class="row g-2 mb-3">
+        <div>
 
-    <div class="col-md-4">
-        <select name="member_id" class="form-select">
-            <option value="">All Members</option>
+            <h2>
+                <i class="bi bi-heart-pulse-fill"></i>
+                Workout & Diet Plans
+            </h2>
 
-            {% for member in members %}
-                <option value="{{ member.id }}"
+            <p>Manage workout and diet plans for members.</p>
+
+        </div>
+
+        <a href="{% url 'admin_workout_plan_add' %}" class="btn add-btn">
+            <i class="bi bi-plus-circle-fill"></i>
+            Add Plan
+        </a>
+
+    </div>
+
+    <div class="filter-card">
+
+        <form method="get" class="row g-3">
+
+            <div class="col-md-5">
+
+                <label class="form-label">Member</label>
+
+                <select name="member_id" class="form-select">
+
+                    <option value="">All Members</option>
+
+                    {% for member in members %}
+
+                    <option value="{{ member.id }}"
                     {% if member.id|stringformat:"s" == selected_member_id %}selected{% endif %}>
-                    {{ member.full_name }} ({{ member.user.username }})
-                </option>
-            {% endfor %}
-        </select>
+
+                        {{ member.full_name }} ({{ member.user.username }})
+
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+            <div class="col-md-2 d-flex align-items-end">
+
+                <button class="btn filter-btn w-100">
+
+                    <i class="bi bi-funnel-fill"></i>
+
+                    Filter
+
+                </button>
+
+            </div>
+
+        </form>
+
     </div>
 
-    <div class="col-md-2 d-flex align-items-end">
-        <button type="submit" class="btn btn-secondary w-100">Filter</button>
-    </div>
+    <div class="row g-4 mt-2">
 
-</form>
+        {% for wp in workout_plans %}
 
-<!-- 📦 WORKOUT PLAN LIST -->
-<div class="row g-3">
+        <div class="col-lg-6">
 
-    {% for wp in workout_plans %}
+            <div class="plan-card">
 
-        <div class="col-md-6">
-            <div class="card shadow-sm h-100">
+                <div class="card-top">
 
-                <!-- Header -->
-                <div class="card-header bg-primary text-white d-flex justify-content-between">
-                    <span>{{ wp.title }}</span>
-                    <small>{{ wp.member.full_name }}</small>
-                </div>
+                    <div>
 
-                <!-- Body -->
-                <div class="card-body d-flex flex-column">
+                        <h5>{{ wp.title }}</h5>
 
-                    <p class="small text-muted mb-1">
-                        {{ wp.created_at|date:"Y-m-d H:i" }}
-                    </p>
+                        <small>
 
-                    <p style="white-space: pre-line;" class="flex-grow-1">
-                        {{ wp.description }}
-                    </p>
+                            <i class="bi bi-person-fill"></i>
 
-                    <!-- Buttons -->
-                    <div class="d-flex gap-2 mt-2">
+                            {{ wp.member.full_name }}
 
-                        <!-- DELETE -->
-                        <form method="post"
-                              action="{% url 'admin_workout_plan_delete' wp.id %}"
-                              class="delete-form">
-                            {% csrf_token %}
-                            <button type="submit"
-                                    class="btn btn-sm btn-danger">
-                                Delete
-                            </button>
-                        </form>
-
-                        <!-- EDIT -->
-                        <a href="{% url 'admin_workout_plan_edit' wp.id %}"
-                           class="btn btn-sm btn-warning">
-                            Edit
-                        </a>
+                        </small>
 
                     </div>
 
+                    <span class="date">
+
+                        {{ wp.created_at|date:"d M Y" }}
+
+                    </span>
+
+                </div>
+
+                <div class="card-body">
+
+                    {{ wp.description|linebreaks }}
+
+                </div>
+
+                <div class="card-footer">
+
+                    <a href="{% url 'admin_workout_plan_edit' wp.id %}" class="btn edit-btn">
+
+                        <i class="bi bi-pencil-fill"></i>
+
+                        Edit
+
+                    </a>
+
+                    <form method="post"
+
+                    action="{% url 'admin_workout_plan_delete' wp.id %}" class="d-inline">
+
+                        {% csrf_token %}
+
+                        <button class="btn delete-btn" onclick="return confirm('Delete this workout plan?')">
+
+                            <i class="bi bi-trash-fill"></i>
+
+                            Delete
+
+                        </button>
+
+                    </form>
+
                 </div>
 
             </div>
+
         </div>
 
-    {% empty %}
+        {% empty %}
 
-        <!-- if No workout plan or data -->
-        <div class="col-12 text-center">
-            <div class="alert alert-info">
-                No workout plans found.
+        <div class="col-12">
+
+            <div class="empty-box">
+
+                <i class="bi bi-emoji-frown"></i>
+
+                <h4>No Workout Plans Found</h4>
+
+                <p>Add a new workout or diet plan.</p>
+
             </div>
+
         </div>
 
-    {% endfor %}
+        {% endfor %}
+
+    </div>
 
 </div>
 

@@ -1,62 +1,154 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+
+<link rel="stylesheet" href="{% static 'css/admin_workout_form.css' %}">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+{% endblock %}
 
 {% block content %}
 
-<h2 class="mb-3">
-   {% if mode == 'edit' %}
-       Edit Workout / Diet Plan
-   {% else %}
-       Add Workout / Diet Plan
-   {% endif %}
-</h2>
+<div class="workout-container">
 
-<form method="post" class="row g-3 w-75">
-    {% csrf_token %}
+    <div class="page-header">
 
-    <!--  MEMBER -->
-    <div class="col-md-6">
-        <label class="form-label"> Member </label>
-        <select name="member_id" class="form-select" required>
-            <option value=""> Select Member </option>
+        <div>
 
-            {% for member in members %}
-            <option value="{{ member.id }}"
-                {% if plan and member.id == plan.member.id %}selected{% endif %}>
-                {{ member.full_name }} ({{ member.user.username }})
-            </option>
-            {% endfor %}
-        </select>
-    </div>
+            <h2>
 
-    <!--  TITLE -->
-    <div class="col-md-3">
-        <label class="form-label"> Title </label>
-        <input type="text" name="title"
-               class="form-control"
-               value="{% if plan %}{{ plan.title }}{% endif %}"
-               required>
-    </div>
+                {% if mode == 'edit' %}
 
-    <!--  DESCRIPTION -->
-    <div class="col-md-12">
-        <label class="form-label"> Description </label>
-        <textarea name="description"
-                  class="form-control"
-                  rows="5"
-                  required>{% if plan %}{{ plan.description }}{% endif %}</textarea>
-    </div>
+                <i class="fa-solid fa-pen-to-square"></i>
 
-    <!-- BUTTON -->
-    <div class="col-md-12">
-        <button type="submit" class="btn btn-primary">
-            {% if mode == 'edit' %}Update{% else %}Save{% endif %}
-        </button>
+                Edit Workout / Diet Plan
 
-        <a href="{% url 'admin_workout_plans_list' %}" class="btn btn-secondary">
-            Cancel
+                {% else %}
+
+                <i class="fa-solid fa-dumbbell"></i>
+
+                Add Workout / Diet Plan
+
+                {% endif %}
+
+            </h2>
+
+            <p>Create and manage personalized workout & diet plans.</p>
+
+        </div>
+
+        <a href="{% url 'admin_workout_plans_list' %}" class="btn btn-light">
+
+            <i class="fa-solid fa-arrow-left"></i>
+
+            Back
+
         </a>
+
     </div>
 
-</form>
+    <div class="form-card">
+
+        <form method="post" class="row g-4">
+
+            {% csrf_token %}
+
+            <div class="col-12">
+
+                <div class="section-title">
+
+                    <i class="fa-solid fa-heart-pulse"></i>
+
+                    Workout Information
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <label class="form-label"> Member </label>
+
+                <select name="member_id" class="form-select" required>
+
+                    <option value="">Select Member</option>
+
+                    {% for member in members %}
+
+                    <option value="{{ member.id }}"
+                    {% if plan and member.id == plan.member.id %}selected{% endif %}>
+
+                        {{ member.full_name }}
+                        ({{ member.user.username }})
+
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <label class="form-label"> Plan Title </label>
+
+                <input type="text" name="title" class="form-control" value="{% if plan %}{{ plan.title }}{% endif %}" required>
+
+            </div>
+
+            <div class="col-12">
+
+                <label class="form-label"> Workout / Diet Description </label>
+
+                <textarea name="description" rows="6" class="form-control" 
+                required> {% if plan %}{{ plan.description }}{% endif %}</textarea>
+
+            </div>
+
+            <div class="col-12">
+
+                <div class="alert alert-light border">
+
+                    <i class="fa-solid fa-circle-info text-primary"></i>
+
+                    Include exercises, repetitions, sets, diet schedule and important instructions.
+
+                </div>
+
+            </div>
+
+            <div class="col-12 text-end">
+
+                <button class="btn save-btn">
+
+                    {% if mode == 'edit' %}
+
+                    <i class="fa-solid fa-floppy-disk"></i>
+
+                    Update Plan
+
+                    {% else %}
+
+                    <i class="fa-solid fa-plus"></i>
+
+                    Save Plan
+
+                    {% endif %}
+
+                </button>
+
+                <a href="{% url 'admin_workout_plans_list' %}" class="btn cancel-btn"> Cancel </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
 
 {% endblock %}

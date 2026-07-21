@@ -1,54 +1,158 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+
+<link rel="stylesheet" href="{% static 'css/admin_equipment_form.css' %}">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+{% endblock %}
 
 {% block content %}
-   
-<h2 class="mb-3">
 
-    {% if mode == 'add' %} Add equipment  {% else %} Edit equipment {% endif %}
-</h2>
+<div class="equipment-container">
 
-<form method= "post" class= "row g-3 w-75" >
-    {% csrf_token %}
-    <div class="col-md-6">
-        <label class="form-label">Equipment Name </label>
-        <input type="text" name="name" class="form-control" value="{{equipment.name|default:'' }}">
+    <div class="page-header">
+
+        <div>
+
+            <h2>
+
+                {% if mode == 'add' %}
+
+                <i class="fa-solid fa-dumbbell"></i> Add Equipment
+
+                {% else %}
+
+                <i class="fa-solid fa-screwdriver-wrench"></i> Edit Equipment
+
+                {% endif %}
+
+            </h2>
+
+            <p>Manage gym equipment information.</p>
+
+        </div>
+
+        <a href="{% url 'admin_equipment_list' %}" class="btn btn-light">
+
+            <i class="fa-solid fa-arrow-left"></i>
+
+            Back
+
+        </a>
 
     </div>
 
-    <div class="col-md-3">
-        <label class="form-label"> Units </label>
-        <input type="number" name="units" class="form-control" 
-                value="{{equipment.units|default:'' }}" >
+    <div class="form-card">
+
+        <form method="post" class="row g-4">
+
+            {% csrf_token %}
+
+            <div class="col-12">
+
+                <div class="section-title">
+
+                    <i class="fa-solid fa-gear"></i>
+
+                    Equipment Information
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+
+                    Equipment Name
+
+                </label>
+
+                <input type="text" name="name" class="form-control" value="{{ equipment.name|default:'' }}" required>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <label class="form-label">
+
+                    Units
+
+                </label>
+
+                <input type="number" name="units" class="form-control" value="{{ equipment.units|default:'' }}" min="1" required>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <label class="form-label">
+
+                    Price (Rs.)
+
+                </label>
+
+                <input type="number" step="0.01" name="price" class="form-control" value="{{ equipment.price|default:'' }}" required>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+
+                    Purchase Date
+
+                </label>
+
+                <input type="date" name="purchase_date" class="form-control" value="{{ equipment.purchase_date|date:'Y-m-d' }}"
+                max="{{ today|date:'Y-m-d' }}">
+
+            </div>
+
+            <div class="col-12">
+
+                <div class="alert alert-light border">
+
+                    <i class="fa-solid fa-circle-info text-primary"></i>
+
+                    Keep equipment records updated for better inventory management.
+
+                </div>
+
+            </div>
+
+            <div class="col-12 text-end">
+
+                <button class="btn save-btn">
+
+                    {% if mode == 'add' %}
+
+                    <i class="fa-solid fa-plus"></i>
+
+                    Add Equipment
+
+                    {% else %}
+
+                    <i class="fa-solid fa-floppy-disk"></i>
+
+                    Update Equipment
+
+                    {% endif %}
+
+                </button>
+
+                <a href="{% url 'admin_equipment_list' %}" class="btn cancel-btn"> Cancel </a>
+
+            </div>
+
+        </form>
 
     </div>
 
-    <div class="col-md-3">
-        <label class="form-label">Equipment Price </label>
-        <input type="number" step="0.01" name="price" class="form-control" value="{{equipment.price|default:'' }}">
+</div>
 
-    </div>
-
-
-    <div class="col-md-3">
-        <label class="form-label">Purchase Date</label>
-        <input type="date" name="purchase_date" class="form-control" 
-        value = "{{ equipment.purchase_date|date:'Y-m-d'}}"
-        max="{{ today|date:'Y-m-d' }}"></input>
-    </div>
-
-
-    <!-- button for add plan ko lagie  -->
-    <div class="col-md-12">
-        <button type="submit" class="btn btn-primary" >
-            {% if mode == 'add' %} Add Equipment {% else %} Update Equipment {% endif %}
-
-        </button>
-        <a href="{% url 'admin_equipment_list' %}" class="btn btn-secondary"> Cancel</a>
-    </div>
-
-</form>
-
-
-
-
-{% endblock  %}
+{% endblock %}

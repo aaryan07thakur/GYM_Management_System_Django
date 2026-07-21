@@ -1,55 +1,177 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block css %}
 
+<link rel="stylesheet" href="{% static 'css/admin_equipment_list.css' %}">
+
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+{% endblock %}
 
 {% block content %}
 
-<div class="d-flex justify-content-between align-items-center mb-3 ">
-    <h2> Equipment List </h2>
+<div class="equipment-page">
 
-    <a href="{% url 'admin_equipment_add' %}" class="btn btn-primary"> Add New Equipment </a>
+    <div class="page-header">
+
+        <div>
+
+            <h2>
+
+                <i class="bi bi-tools"></i>
+
+                Equipment List
+
+            </h2>
+
+            <p>Manage all gym equipment.</p>
+
+        </div>
+
+        <a href="{% url 'admin_equipment_add' %}" class="btn add-btn">
+
+            <i class="bi bi-plus-circle-fill"></i>
+
+            Add Equipment
+
+        </a>
+
+    </div>
+
+    <div class="table-card">
+
+        <div class="table-responsive">
+
+            <table class="table equipment-table align-middle">
+
+                <thead>
+
+                    <tr>
+
+                        <th>#</th>
+
+                        <th>Equipment</th>
+
+                        <th>Units</th>
+
+                        <th>Price</th>
+
+                        <th>Purchase Date</th>
+
+                        <th>Actions</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for equipment in equipments %}
+
+                    <tr>
+
+                        <td>{{ forloop.counter }}</td>
+
+                        <td>
+
+                            <div class="equipment-info">
+
+                                <div class="avatar">
+
+                                    {{ equipment.name|slice:":1"|upper }}
+
+                                </div>
+
+                                <div>
+
+                                    <strong>{{ equipment.name }}</strong>
+
+                                    <small>Gym Equipment</small>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-primary">
+
+                                {{ equipment.units }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <span class="price">
+
+                                Rs. {{ equipment.price }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            {{ equipment.purchase_date }}
+
+                        </td>
+
+                        <td>
+
+                            <div class="button-group">
+
+                                <a href="{% url 'admin_equipment_edit' equipment.id %}" class="btn edit-btn">
+
+                                    <i class="bi bi-pencil-fill"></i>
+
+                                </a>
+
+                                <form method="post" action="{% url 'admin_equipment_delete' equipment.id %}" class="inline-form">
+
+                                    {% csrf_token %}
+
+                                    <button class="btn delete-btn" onclick="return confirm('Delete this equipment?')">
+
+                                        <i class="bi bi-trash-fill"></i>
+
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="6" class="text-center py-5">
+
+                            No Equipment Found
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
 </div>
-
-    <table class="table table-bordered table-striped ">
-
-        <thead class="table-dark">
-            <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Units</th>
-                <th>Price</th>
-                <th>Purchase Date </th>
-                <th>Actions</th>
-            </tr>
-
-        </thead>
-        <tbody>
-            {% for equipment in equipments %}
-            <tr>
-                <td>{{ forloop.counter }}</td>  <!-- counts 1,2,3,4....-->
-                <td> {{equipment.name }} </td>
-                <td> {{equipment.units }} </td>
-                <td> {{equipment.price}} </td>
-                <td> {{equipment.purchase_date}} </td>
-                <td>
-                    <div class="button-group">
-                        <a href="{% url 'admin_equipment_edit' equipment.id %}" class="btn btn-sm btn-warning" > Edit </a>
-                        <!-- delete button ko Features by form because it is more secure -->
-                        <form method="post" action="{% url 'admin_equipment_delete' equipment.id %}" class="inline-form" >
-                            {% csrf_token %}
-                            <input type="hidden" name="equipment_id" value="{{equipment_id }}">
-                            <button type="submit" class="btn btn-sm btn-danger " 
-                            onclick = "return confirm('Are you sure you want to delete this equipment ? ')">Delete </button>
-
-                        </form>
-                    </div>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-
-    </table>
-
 
 {% endblock %}

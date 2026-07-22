@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+*{font-family:Poppins,sans-serif}
+
+body{
+background:#f4f7fc;
+}
+
+.member-dashboard{
+padding:20px;
+}
+
+.welcome-box{
+background:linear-gradient(135deg,#2563eb,#4f46e5);
+padding:35px;
+border-radius:20px;
+color:#fff;
+box-shadow:0 12px 25px rgba(0,0,0,.15);
+}
+
+.welcome-box h2{
+margin:0;
+font-size:32px;
+font-weight:700;
+}
+
+.welcome-box p{
+margin-top:10px;
+opacity:.95;
+}
+
+.stats-card{
+padding:28px;
+border-radius:18px;
+color:#fff;
+text-align:center;
+box-shadow:0 8px 20px rgba(0,0,0,.12);
+transition:.3s;
+}
+
+.stats-card:hover{
+transform:translateY(-6px);
+}
+
+.stats-card i{
+font-size:38px;
+margin-bottom:10px;
+}
+
+.stats-card h6{
+margin:10px 0;
+font-size:15px;
+}
+
+.stats-card h2{
+font-size:34px;
+font-weight:700;
+}
+
+.blue{
+background:linear-gradient(135deg,#2563eb,#3b82f6);
+}
+
+.green{
+background:linear-gradient(135deg,#16a34a,#22c55e);
+}
+
+.orange{
+background:linear-gradient(135deg,#f97316,#fb923c);
+}
+
+.quick-card{
+background:#fff;
+padding:25px;
+border-radius:18px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.quick-card h4{
+margin-bottom:20px;
+font-weight:700;
+color:#1e293b;
+}
+
+.quick-links{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:15px;
+}
+
+.quick-links a{
+text-decoration:none;
+background:#f8fafc;
+padding:18px;
+border-radius:14px;
+color:#334155;
+font-weight:600;
+text-align:center;
+transition:.3s;
+}
+
+.quick-links a:hover{
+background:#2563eb;
+color:#fff;
+transform:translateY(-4px);
+}
+
+.quick-links i{
+display:block;
+font-size:28px;
+margin-bottom:10px;
+}
+
+.motivation{
+margin-top:30px;
+background:#fff;
+padding:30px;
+border-radius:18px;
+text-align:center;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.motivation h3{
+font-weight:700;
+margin-bottom:12px;
+color:#2563eb;
+}
+
+.motivation p{
+font-size:18px;
+color:#475569;
+line-height:1.7;
+}
+
+@media(max-width:768px){
+
+.member-dashboard{
+padding:15px;
+}
+
+.welcome-box h2{
+font-size:25px;
+}
+
+.quick-links{
+grid-template-columns:1fr;
+}
+
+.stats-card h2{
+font-size:28px;
+}
+
+}

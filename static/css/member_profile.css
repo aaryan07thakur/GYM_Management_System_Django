@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+*{
+font-family:Poppins,sans-serif;
+}
+
+body{
+background:#f4f7fc;
+}
+
+.profile-page{
+padding:20px;
+}
+
+.profile-header{
+background:linear-gradient(135deg,#2563eb,#4f46e5);
+padding:30px;
+border-radius:18px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+gap:20px;
+color:#fff;
+box-shadow:0 10px 25px rgba(0,0,0,.12);
+margin-bottom:25px;
+}
+
+.profile-info{
+display:flex;
+align-items:center;
+gap:18px;
+}
+
+.avatar{
+width:80px;
+height:80px;
+border-radius:50%;
+background:#fff;
+color:#2563eb;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:34px;
+font-weight:700;
+}
+
+.profile-info h2{
+margin:0;
+font-weight:700;
+}
+
+.profile-info p{
+margin:4px 0 0;
+opacity:.9;
+}
+
+.edit-btn,
+.pass-btn{
+padding:11px 18px;
+border-radius:10px;
+font-weight:600;
+margin-left:8px;
+}
+
+.edit-btn{
+background:#fff;
+color:#2563eb;
+}
+
+.pass-btn{
+background:#ffc107;
+color:#212529;
+}
+
+.edit-btn:hover{
+background:#17daa0;
+}
+
+.pass-btn:hover{
+background:#15130fad;
+}
+
+.profile-card{
+background:#fff;
+padding:25px;
+border-radius:18px;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.profile-card h4{
+margin-bottom:20px;
+font-weight:700;
+color:#1e293b;
+}
+
+.profile-table{
+margin:0;
+}
+
+.profile-table th{
+width:220px;
+background:#f8fafc;
+font-weight:600;
+color:#334155;
+padding:16px;
+}
+
+.profile-table td{
+padding:16px;
+}
+
+.profile-table tr:hover{
+background:#f5f9ff;
+}
+
+@media(max-width:768px){
+
+.profile-header{
+flex-direction:column;
+text-align:center;
+}
+
+.profile-info{
+flex-direction:column;
+}
+
+.edit-btn,
+.pass-btn{
+display:block;
+width:100%;
+margin:8px 0;
+}
+
+.profile-table th{
+width:40%;
+}
+
+}

@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+*{font-family:Poppins,sans-serif}
+
+body{
+background:#f4f7fc;
+}
+
+.workout-page{
+padding:20px;
+}
+
+.page-header{
+background:linear-gradient(135deg,#2563eb,#4f46e5);
+padding:30px;
+border-radius:18px;
+color:#fff;
+margin-bottom:25px;
+box-shadow:0 10px 25px rgba(0,0,0,.12);
+}
+
+.page-header h2{
+margin:0;
+font-size:30px;
+font-weight:700;
+}
+
+.page-header p{
+margin-top:8px;
+opacity:.9;
+}
+
+.workout-card{
+background:#fff;
+border-radius:18px;
+overflow:hidden;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+transition:.3s;
+height:100%;
+}
+
+.workout-card:hover{
+transform:translateY(-6px);
+}
+
+.card-header-custom{
+background:linear-gradient(135deg,#2563eb,#4f46e5);
+padding:18px 22px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+color:#fff;
+}
+
+.card-header-custom h4{
+margin:0;
+font-size:20px;
+font-weight:600;
+}
+
+.card-header-custom span{
+background:rgba(255,255,255,.18);
+padding:6px 12px;
+border-radius:30px;
+font-size:13px;
+}
+
+.card-body-custom{
+padding:22px;
+}
+
+.card-body-custom h6{
+font-weight:700;
+margin-bottom:15px;
+color:#2563eb;
+}
+
+.card-body-custom p{
+margin:0;
+white-space:pre-line;
+line-height:1.8;
+color:#475569;
+}
+
+.empty-card{
+background:#fff;
+padding:60px 30px;
+text-align:center;
+border-radius:18px;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.empty-card i{
+font-size:70px;
+color:#2563eb;
+margin-bottom:15px;
+}
+
+.empty-card h3{
+font-weight:700;
+margin-bottom:10px;
+}
+
+.empty-card p{
+color:#64748b;
+max-width:550px;
+margin:auto;
+line-height:1.7;
+}
+
+@media(max-width:768px){
+
+.workout-page{
+padding:15px;
+}
+
+.page-header h2{
+font-size:24px;
+}
+
+.card-header-custom{
+flex-direction:column;
+align-items:flex-start;
+gap:10px;
+}
+
+}

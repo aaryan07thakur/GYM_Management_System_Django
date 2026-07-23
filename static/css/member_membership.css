@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+*{font-family:Poppins,sans-serif}
+
+body{
+background:#f4f7fc;
+}
+
+.membership-page{
+padding:20px;
+}
+
+.membership-header{
+background:linear-gradient(135deg,#2563eb,#4f46e5);
+padding:30px;
+border-radius:18px;
+color:#fff;
+margin-bottom:25px;
+box-shadow:0 10px 25px rgba(0,0,0,.12);
+}
+
+.membership-header h2{
+margin:0;
+font-size:30px;
+font-weight:700;
+}
+
+.membership-header p{
+margin-top:8px;
+opacity:.9;
+}
+
+.membership-card{
+background:#fff;
+padding:25px;
+border-radius:18px;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.membership-table{
+margin:0;
+}
+
+.membership-table th{
+width:240px;
+background:#f8fafc;
+padding:16px;
+font-weight:600;
+color:#334155;
+}
+
+.membership-table td{
+padding:16px;
+}
+
+.membership-table tr:hover{
+background:#f5f9ff;
+}
+
+.empty-card{
+background:#fff;
+padding:60px 30px;
+border-radius:18px;
+text-align:center;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.empty-card i{
+font-size:70px;
+color:#f59e0b;
+margin-bottom:15px;
+}
+
+.empty-card h3{
+font-weight:700;
+margin-bottom:10px;
+}
+
+.empty-card p{
+color:#64748b;
+margin:0;
+}
+
+@media(max-width:768px){
+
+.membership-page{
+padding:15px;
+}
+
+.membership-header h2{
+font-size:24px;
+}
+
+.membership-table th{
+width:42%;
+}
+
+}

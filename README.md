@@ -156,7 +156,7 @@ Clone the repository
 
 Move into the project directory
 
-cd GumProject
+cd GuymProject
 
 
 Create Virtual Environment

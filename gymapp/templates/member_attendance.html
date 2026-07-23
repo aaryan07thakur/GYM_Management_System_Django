@@ -1,39 +1,110 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block css %}
 
+<link rel="stylesheet" href="{% static 'css/member_attendance.css' %}">
+
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+{% endblock %}
 
 {% block content %}
 
-<h2 class="mb-3" >My Attendance </h2>
+<div class="attendance-page">
 
+    <div class="page-header">
 
-    <table class="table table-bordered table-striped ">
+        <div>
 
-        <thead class="table-dark">
-            <tr>
-                <th>#</th>
-                <th> Date </th>
-                <th>Time In</th>
-            </tr>
+            <h2>
+                <i class="bi bi-calendar-check-fill"></i>
+                My Attendance
+            </h2>
 
-        </thead>
-        <tbody>
-            {% for attendance in attendances %}
-            <tr>
-                <td>{{ forloop.counter }}</td>
-                <td> {{attendance.date}} </td>
-                <td> {{attendance.time_in }} </td>
-            </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="3" class="text-center"> No attendance records found </td>
-                </tr>
+            <p>Your complete attendance history.</p>
 
-            {% endfor %}
-        </tbody>
+        </div>
 
-    </table>
+    </div>
 
+    <div class="table-card">
+
+        <div class="table-responsive">
+
+            <table class="table attendance-table align-middle">
+
+                <thead>
+
+                    <tr>
+
+                        <th>#</th>
+
+                        <th>Date</th>
+
+                        <th>Time In</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for attendance in attendances %}
+
+                    <tr>
+
+                        <td>{{ forloop.counter }}</td>
+
+                        <td>
+
+                            <i class="bi bi-calendar-event text-primary"></i>
+
+                            {{ attendance.date }}
+
+                        </td>
+
+                        <td>
+
+                            <span class="time-badge">
+
+                                <i class="bi bi-clock"></i>
+
+                                {{ attendance.time_in }}
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="3" class="text-center py-5">
+
+                            <i class="bi bi-calendar-x fs-1 text-secondary"></i>
+
+                            <br><br>
+
+                            No Attendance Records Found
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
 
 {% endblock %}

@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+*{font-family:Poppins,sans-serif}
+
+body{
+background:#f4f7fc;
+}
+
+.attendance-page{
+padding:20px;
+}
+
+.page-header{
+background:linear-gradient(135deg,#2563eb,#4f46e5);
+padding:30px;
+border-radius:18px;
+color:#fff;
+margin-bottom:25px;
+box-shadow:0 10px 25px rgba(0,0,0,.12);
+}
+
+.page-header h2{
+margin:0;
+font-size:30px;
+font-weight:700;
+}
+
+.page-header p{
+margin-top:8px;
+opacity:.9;
+}
+
+.table-card{
+background:#fff;
+border-radius:18px;
+overflow:hidden;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.attendance-table{
+margin:0;
+}
+
+.attendance-table thead th{
+background:#2563eb!important;
+color:#fff!important;
+padding:18px;
+border:none;
+font-weight:600;
+}
+
+.attendance-table td{
+padding:18px;
+vertical-align:middle;
+}
+
+.attendance-table tbody tr:nth-child(even){
+background:#fafcff;
+}
+
+.attendance-table tbody tr:hover{
+background:#eef4ff;
+}
+
+.time-badge{
+background:#eef2ff;
+color:#2563eb;
+padding:7px 14px;
+border-radius:30px;
+font-weight:600;
+font-size:13px;
+display:inline-flex;
+align-items:center;
+gap:6px;
+}
+
+@media(max-width:768px){
+
+.attendance-page{
+padding:15px;
+}
+
+.page-header h2{
+font-size:24px;
+}
+
+}
